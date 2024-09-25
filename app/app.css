@@ -1,0 +1,22 @@
+.text {
+    text-shadow: 0px 4px 5px black;
+    letter-spacing: 0.5px;
+}
+
+.description {
+    text-shadow: 0px 2px 3px black;
+}
+
+/* .banner {
+    --tw-bg-opacity: 1;
+    animation: colour 1s ease-in-out infinite alternate;
+}
+
+@keyframes colour {
+    0% {
+        box-shadow: 0px 0px 0px 0px rgb(17 24 39 / var(--tw-bg-opacity));
+    }
+    100% {
+        box-shadow: 0px 0px 10px 2px yellow;
+    }
+} */

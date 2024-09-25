@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap');
+
+.icon {
+    font-family: "Exo 2", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal; 
+    transform: scaleX(1.0);
+    text-shadow: 0px 1px 15px black;
+}
+
+.span_params {
+    font-family: "Exo 2", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal; 
+    text-shadow: 0px 1px 5px black ;
+}
+
+.params {
+    font-family: "Exo 2", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal; 
+}
+
+.projectDiv {
+    background-color: rgba(0, 0, 0, 0.742);
+}
+
+.projectDivChild {
+    background-color: rgba(110, 110, 110, 0.959);
+}
+
+.projectDivInput {
+    background-color: rgba(255, 213, 0, 0.189);
+}
+
+.projectDivSpan {
+    text-shadow: 0px 2px 10px black;
+}
+
+.projectdivcancelButton {
+    text-shadow: 0px 2px 10px black;
+}

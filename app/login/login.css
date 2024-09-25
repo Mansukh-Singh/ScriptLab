@@ -1,0 +1,63 @@
+:root {
+    --tw-text-opacity: 1;
+    --tw-bg-opacity: 1;
+  }
+
+.loginboard {
+    background: linear-gradient(to bottom, rgba(253 224 71 / var(--tw-text-opacity)),rgba(75 85 99 / var(--tw-bg-opacity)));
+}
+
+.email,.password {
+    background: none;
+    border: 1px solid rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.265);
+    outline: none;
+    border-radius: 5px;
+}
+
+.signup {
+    text-shadow: 0px 2px 4px black;
+}
+
+.login {
+    text-shadow: 0px 2px 4px black;
+}
+
+.or_text, .github_text {
+    text-shadow: 0px 2px 4px black;
+}
+
+.text {
+    text-shadow: 0px 2px 4px black;
+}
+
+.loading {
+    background-color: rgba(255, 255, 255, 0.267);
+}
+
+.child_loading {
+    --tw-text-opacity:1;
+    box-shadow: 0px 0px 30px 2px black;
+    border: 11px solid rgba(77, 77, 77, 0.772);
+    border-top: 11px solid rgb(253 224 71 / var(--tw-text-opacity));
+    border-radius: 50%;
+    animation: rotate 0.8s cubic-bezier(0.42, 0, 0.05, 1) infinite;
+}
+
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);    
+    }
+}
+
+.fp,.back,.r_password {
+    text-shadow: 0px 2px 4px black;
+}
+
+.fog_pass {
+    text-shadow: 0px 2px 30px 5px black;
+    color: rgb(61, 46, 0);  
+}

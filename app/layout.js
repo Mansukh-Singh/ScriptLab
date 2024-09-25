@@ -1,4 +1,7 @@
 import { Inter } from "next/font/google";
+import Navbar from "../components/navbar/Navbar";
+import StoreProvider from "@/components/provider/Provider";
+import SessionWrapper from "@/components/sessionwrapper/sessionwrapper";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -10,8 +13,21 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
+    <>
+      <html lang="en">
+        <head>
+          <link rel="icon" href="/js_logo.png" />
+        </head>
+        <body className={`${inter.className} relative min-h-[100vh]`}>
+          <SessionWrapper>
+          <StoreProvider>
+          <Navbar />
+          <div className="absolute top-0 z-[-2] min-h-[100vh] w-screen bg-gray-900"></div>
+          {children}
+          </StoreProvider>
+          </SessionWrapper>
+        </body>
+      </html>
+    </>
   );
 }
