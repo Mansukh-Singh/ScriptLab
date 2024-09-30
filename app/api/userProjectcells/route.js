@@ -1,11 +1,11 @@
 import { NextResponse } from "next/server"
 import userName from "../server/models/UserProject"
 
-export async function POST(req, res) {
+export async function POST(req, res) {  
     let data = await req.json()
     let userProject = await userName(data.collectionName)
-    let documents = await userProject.find()
-    return NextResponse.json({ documents: documents })
+    let documents = await userProject.find({projectname:data.projectName})
+    return NextResponse.json({ documents: documents})
 }
 
 export async function GET(req, res) {
