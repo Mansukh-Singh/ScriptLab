@@ -7,6 +7,7 @@ import './project.css'
 const page = ({ params }) => {
 
   const projectRef = useRef();
+  const actionIcons = useState(false)
   const projectNameDropDown = useRef();
   const [drop, setdrop] = useState(false)
   const [cells, setcells] = useState([])
@@ -64,9 +65,9 @@ const page = ({ params }) => {
   }, [cellsName])
 
   useEffect(() => {
-    settextArea(cells.map(cell=>cell))
+    settextArea(cells.map(cell => cell))
   }, [cells])
-  
+
 
   const projectDivClick = () => {
     setdrop(!drop)
@@ -103,21 +104,13 @@ const page = ({ params }) => {
     }
   }
 
-  const generateBorder = (e) => {
-    let index = e.target.key
-    if (inputRefs.current[index]) {
-      inputRefs.current[index].classList.remove('bg-slate-800');
-      inputRefs.current[index].classList.add('bg-red-600');
-    }
-  }
-
   const handleAddCell = () => {
     // setcells((cells)=>{
     //   const updatedCells = [...cells]
     //   updatedCells.push('')
     //   return updatedCells
     // })
-    settextArea((textArea)=>{
+    settextArea((textArea) => {
       const addedCell = [...textArea]
       addedCell.push('')
       return addedCell
@@ -152,18 +145,39 @@ const page = ({ params }) => {
             </div>
             <div onMouseOver={runOver} onMouseLeave={runLeave} className="flex relative justify-start gap-2 items-center h-6 w-24 hover:bg-slate-800 rounded-md cursor-pointer">
               <div className="flex justify-center items-center h-6 w-8 absolute">
-                <Image className="absolute left-1" src="/play_icon.png" width={16} height={16} alt="play_icon" />
-                <span ref={runButton} className="flex justify-start items-center pl-0 bg-gray-900 absolute z-[2] left-2"><Image src="/play_icon.png" width={16} height={16} alt="play_icon" /></span>
+                <Image className="absolute left-1" src="/play_pic.png" width={16} height={16} alt="play_icon" />
+                <span ref={runButton} className="flex justify-start items-center pl-0 bg-gray-900 absolute z-[2] left-2"><Image src="/play_pic.png" width={16} height={16} alt="play_icon" /></span>
               </div>
               <span className="inline-block absolute left-8 text font-semibold">Run All</span>
             </div>
           </div>
           {textArea.map((e, index) => {
             return <>
-              <div ref={(el) => (parentRefs.current[index] = el)} key={index} style={{ height: "64px" }} onClick={generateBorder} className="cells flex justify-center items-center relative z-[2] w-[78vw] h-16 m-auto mb-8 mt-7 ml-1 bg-slate-900">
+              <div onClick={(e) => {
+                textArea.map((element, indices) => {
+                  if (indices == index) {
+                    outerRefs.current[indices].style.transition = "all 0.4s ease"
+                    gridRefs.current[indices].children[0].style.transition = "all 0.4s ease"
+                    parentRefs.current[indices].children[0].style.transition = "all 0.4s ease"
+                    parentRefs.current[indices].children[0].style.display = "flex"
+                    outerRefs.current[indices].style.border = "1px rgb(253 224 71/ 1) solid"
+                    gridRefs.current[indices].children[0].style.backgroundColor = "rgb(253 224 71/ 1)"
+                  }
+                  else {
+                    parentRefs.current[indices].children[0].style.display = "none"
+                    outerRefs.current[indices].style.border = "none"
+                    gridRefs.current[indices].children[0].style.backgroundColor = "rgb(30 41 59/1)"
+                  }
+                })
+              }} ref={(el) => (parentRefs.current[index] = el)} key={index} style={{ height: "64px" }} className="cells flex justify-center items-center relative z-[2] w-[78vw] h-16 m-auto mb-8 mt-7 ml-1 bg-slate-900">
+                <div style={{ display: "none" }} className="flex justify-center gap-3 items-center rounded-sm border-[0.2px] border-yellow-300 absolute z-[3] top-[-3vh] right-10 w-[10vw] h-[5vh] bg-slate-950">
+                  <Image className="p-[2.5px] rounded-md hover:bg-gray-700 cursor-pointer" src="/play_pic.png" width={22} height={22} alt="play_icon" />
+                  <Image className="p-[2.5px] rounded-md hover:bg-gray-700 cursor-pointer" src="/play_pic.png" width={22} height={22} alt="play_icon" />
+                  <Image className="p-[3px] rounded-md hover:bg-gray-700 cursor-pointer" src="/trash_can.png" width={22} height={22} alt="play_icon" />
+                </div>
                 <div ref={(el) => (gridRefs.current[index] = el)} style={{ height: "64px" }} className="grid grid-cols-[0.3vw_3.2vw] grid-rows-[32px_32px] absolute left-0 w-[3.5vw] h-16 ">
-                  <div className="col-start-1 col-end-2 row-start-1 row-span-3 bg-yellow-400"></div>
-                  <div className="flex justify-center items-center col-start-2 col-end-3 row-start-1 row-end-2"><Image className="p-1 rounded-md hover:bg-gray-700 cursor-pointer" src="/play_icon.png" width={24} height={24} alt="play_icon" /></div>
+                  <div className="rounded-md col-start-1 col-end-2 row-start-1 row-span-3 bg-slate-800"></div>
+                  <div className="flex justify-center items-center col-start-2 col-end-3 row-start-1 row-end-2"><Image className="p-[2.5px] rounded-md hover:bg-gray-700 cursor-pointer" src="/play_pic.png" width={22} height={22} alt="play_icon" /></div>
                   <div className="gridChild col-start-2 col-end-3 row-start-2 row-end-4 font-light mb-1">{`[ ]`}</div>
                 </div>
                 <div ref={(el) => (outerRefs.current[index] = el)} style={{ height: "64px" }} className="flex justify-center items-center absolute top-0 right-0 w-[74.5vw] h-16 bg-slate-800">
@@ -181,7 +195,7 @@ const page = ({ params }) => {
                       parentRefs.current[index].style.height = `${inputRefs.current[index].scrollHeight + 43}px`;
                       gridRefs.current[index].style.height = `${inputRefs.current[index].scrollHeight + 43}px`;
                     }
-                  }} key={index} ref={(el) => (inputRefs.current[index] = el)} style={{ height: "20px" }} className="textarea text border-[0.5px] justify-start items-center focus:outline-none h-[20px] resize-none inline-block ml-5 bg-slate-800 w-[71vw] overflow-hidden"></textarea>
+                  }} key={index} ref={(el) => (inputRefs.current[index] = el)} style={{ height: "20px" }} className="textarea text border-[0.2px] justify-start items-center focus:outline-none h-[20px] resize-none inline-block ml-5 bg-slate-800 w-[71vw] overflow-hidden"></textarea>
                 </div>
               </div>
             </>
