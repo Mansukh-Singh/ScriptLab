@@ -64,10 +64,9 @@ const page = ({ params }) => {
   }, [cellsName])
 
   useEffect(() => {
-    for (let i = 0; i < cells.length; i++) {
-      settextArea((textArea) => [...textArea, '']);
-    }
+    settextArea(cells.map(cell=>cell))
   }, [cells])
+  
 
   const projectDivClick = () => {
     setdrop(!drop)
@@ -112,13 +111,17 @@ const page = ({ params }) => {
     }
   }
 
-  const textareaInput = (index) => {
-    if (inputRefs.current[index] || outerRefs.current[index]){
-      const inputRefHeight = inputRefs.current[index].style.height
-      const outerRefHeight = outerRefs.current[index].style.height
-      inputRefs.current[index].style.height = `${inputRefHeight + 20}px`
-      outerRefs.current[index].style.height = `${outerRefHeight + 20}px`
-    }
+  const handleAddCell = () => {
+    // setcells((cells)=>{
+    //   const updatedCells = [...cells]
+    //   updatedCells.push('')
+    //   return updatedCells
+    // })
+    settextArea((textArea)=>{
+      const addedCell = [...textArea]
+      addedCell.push('')
+      return addedCell
+    })
   }
 
   return (
@@ -137,9 +140,9 @@ const page = ({ params }) => {
             })}
           </div>
         </div>
-        <div className="child_main1 flex-col justify-end items-center w-[80vw] overflow-auto">
+        <div className="child_main1 flex-col justify-end items-center w-[80vw] overflow-x-hidden overflow-y-auto">
           <div className="flex justify-start items-center gap-2 w-[80vw] h-11">
-            <div className="flex justify-center gap-2 items-center ml-4 h-6 w-20 hover:bg-slate-800 rounded-md cursor-pointer">
+            <div onClick={handleAddCell} className="flex justify-center gap-2 items-center ml-4 h-6 w-20 hover:bg-slate-800 rounded-md cursor-pointer">
               <span className="plus_sign text-lg pb-1 font-semibold">+</span>
               <span className="text font-semibold">Code</span>
             </div>
@@ -155,16 +158,30 @@ const page = ({ params }) => {
               <span className="inline-block absolute left-8 text font-semibold">Run All</span>
             </div>
           </div>
-          {cells.map((e, index) => {
+          {textArea.map((e, index) => {
             return <>
-              <div ref={(el) => (parentRefs.current[index] = el)} key={index} onClick={generateBorder} className="cells flex justify-center items-center w-[78vw] h-16 m-auto mt-5 ml-1 bg-slate-900">
-                <div ref={(el) => (gridRefs.current[index] = el)} className="grid grid-cols-[0.3vw_3.2vw] grid-rows-[32px_32px] w-[3.5vw] h-16">
+              <div ref={(el) => (parentRefs.current[index] = el)} key={index} style={{ height: "64px" }} onClick={generateBorder} className="cells flex justify-center items-center relative z-[2] w-[78vw] h-16 m-auto mb-8 mt-7 ml-1 bg-slate-900">
+                <div ref={(el) => (gridRefs.current[index] = el)} style={{ height: "64px" }} className="grid grid-cols-[0.3vw_3.2vw] grid-rows-[32px_32px] absolute left-0 w-[3.5vw] h-16 ">
                   <div className="col-start-1 col-end-2 row-start-1 row-span-3 bg-yellow-400"></div>
                   <div className="flex justify-center items-center col-start-2 col-end-3 row-start-1 row-end-2"><Image className="p-1 rounded-md hover:bg-gray-700 cursor-pointer" src="/play_icon.png" width={24} height={24} alt="play_icon" /></div>
-                  <div className="gridChild bg-red-800 col-start-2 col-end-3 row-start-2 row-end-3 font-light mb-1">{`[ ]`}</div>
+                  <div className="gridChild col-start-2 col-end-3 row-start-2 row-end-4 font-light mb-1">{`[ ]`}</div>
                 </div>
-                <div ref={(el) => (outerRefs.current[index] = el)} style={{height:"64px"}} className="flex justify-center items-center w-[74.5vw] h-16 bg-slate-800">
-                  <textarea onInput={textareaInput(index)} key={index} ref={(el) => (inputRefs.current[index] = el)} style={{height:"20px"}} className="textarea text border-[0.5px] focus:outline-none h-[20px] resize-none inline-block ml-5 bg-slate-800 w-[71vw]"></textarea>
+                <div ref={(el) => (outerRefs.current[index] = el)} style={{ height: "64px" }} className="flex justify-center items-center absolute top-0 right-0 w-[74.5vw] h-16 bg-slate-800">
+                  <textarea value={[...textArea][index]} onChange={(e) => {
+                    settextArea((textArea) => {
+                      const updatedTextArea = [...textArea]
+                      updatedTextArea[index] = e.target.value
+                      return updatedTextArea
+                    })
+                  }} onInput={(e) => {
+                    if (inputRefs.current[index] || outerRefs.current[index]) {
+                      inputRefs.current[index].style.height = "20px";
+                      inputRefs.current[index].style.height = `${inputRefs.current[index].scrollHeight - 1}px`;
+                      outerRefs.current[index].style.height = `${inputRefs.current[index].scrollHeight + 43}px`;
+                      parentRefs.current[index].style.height = `${inputRefs.current[index].scrollHeight + 43}px`;
+                      gridRefs.current[index].style.height = `${inputRefs.current[index].scrollHeight + 43}px`;
+                    }
+                  }} key={index} ref={(el) => (inputRefs.current[index] = el)} style={{ height: "20px" }} className="textarea text border-[0.5px] justify-start items-center focus:outline-none h-[20px] resize-none inline-block ml-5 bg-slate-800 w-[71vw] overflow-hidden"></textarea>
                 </div>
               </div>
             </>
@@ -174,5 +191,5 @@ const page = ({ params }) => {
     </>
   )
 }
-
+``
 export default page

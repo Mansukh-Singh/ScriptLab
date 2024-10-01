@@ -22,7 +22,7 @@
 .project_text {
     font-family: "Exo 2", sans-serif;
     font-optical-sizing: auto;
-    font-style: normal; 
+    font-style: normal;
     text-shadow: 0px 1px 5px black;
     letter-spacing: 1px;
     font-size: small;
@@ -31,7 +31,7 @@
 .project_text_child {
     font-family: "Exo 2", sans-serif;
     font-optical-sizing: auto;
-    font-style: normal; 
+    font-style: normal;
     text-shadow: 0px 1px 5px black;
     letter-spacing: 1px;
     font-size: 12.5px;
@@ -41,38 +41,40 @@
 .project_name_drop_down::-webkit-scrollbar {
     width: 13px;
     color: aqua;
-    border:none;
+    border: none;
     height: 50vh;
 }
 
 .project_name_drop_down::-webkit-scrollbar-track {
     background-color: rgba(0, 0, 0, 0);
-} 
+}
 
 .project_name_drop_down::-webkit-scrollbar-thumb {
-    background-color: rgba(72, 72, 72, 0.24); 
-    border: none; 
-    color:bisque;
+    background-color: rgba(72, 72, 72, 0.24);
+    border: none;
+    color: bisque;
 }
 
 .textarea_scroll::-webkit-scrollbar {
-    display: none; /* Width for the horizontal scrollbar (optional, can be modified) */
-  }
-  
-  .textarea_scroll::-webkit-scrollbar-track {
-    background-color: rgb(30,41,59); /* Scrollbar track background */
-  }
-  
-  .textarea_scroll::-webkit-scrollbar-thumb {
-    background-color: rgb(72, 72, 72); /* Scrollbar thumb color */
-  }
-  
+    display: none;
+}
+
+.textarea_scroll::-webkit-scrollbar-track {
+    background-color: rgb(30, 41, 59);
+    /* Scrollbar track background */
+}
+
+.textarea_scroll::-webkit-scrollbar-thumb {
+    background-color: rgb(72, 72, 72);
+    /* Scrollbar thumb color */
+}
+
 
 
 .plus_sign {
     font-family: "Exo 2", sans-serif;
     font-optical-sizing: auto;
-    font-style: normal; 
+    font-style: normal;
     text-shadow: 0px 1px 5px black;
     letter-spacing: 1px;
 }
@@ -80,15 +82,16 @@
 .text {
     font-family: "Exo 2", sans-serif;
     font-optical-sizing: auto;
-    font-style: normal; 
+    font-style: normal;
     text-shadow: 0px 1px 5px black;
     letter-spacing: 1px;
     font-size: 13px;
 }
 
 .textarea {
-    border-color: rgba(255, 255, 255, 0.158);
+    border-color: rgba(255, 255, 255, 0.082);
     scrollbar-width: none;
+    font-size: 14px;
 }
 
 .gridChild {
