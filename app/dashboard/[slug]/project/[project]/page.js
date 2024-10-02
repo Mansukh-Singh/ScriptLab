@@ -2,6 +2,7 @@
 import React from 'react'
 import { useRef, useState, useEffect } from 'react'
 import Image from 'next/image'
+import runProgram from './runProgram'
 import './project.css'
 
 const page = ({ params }) => {
@@ -20,6 +21,7 @@ const page = ({ params }) => {
   const outerRefs = useRef([])
   const parentRefs = useRef([])
   const gridRefs = useRef([])
+  const [selectIndex, setSelectIndex] = useState(null)
 
   useEffect(() => {
     async function main() {
@@ -86,8 +88,8 @@ const page = ({ params }) => {
     }
   }
 
-  const childClick = () => {
-
+  const childClick = (e) => {
+    window.location.href = `/dashboard/${decodeURIComponent(params.slug)}/project/${e.target.dataset.project}`
   }
 
   const runOver = () => {
@@ -104,17 +106,45 @@ const page = ({ params }) => {
     }
   }
 
+  useEffect(() => {
+    if (selectIndex !== null) {
+      textArea.map((element, indices) => {
+        if (indices == selectIndex) {
+          outerRefs.current[indices].style.transition = "all 0.4s ease"
+          gridRefs.current[indices].children[0].style.transition = "all 0.4s ease"
+          parentRefs.current[indices].children[0].style.transition = "all 0.4s ease"
+          parentRefs.current[indices].children[0].style.display = "flex"
+          outerRefs.current[indices].style.border = "1px rgb(253 224 71/ 1) solid"
+          gridRefs.current[indices].children[0].style.backgroundColor = "rgb(253 224 71/ 1)"
+        }
+        else {
+          parentRefs.current[indices].children[0].style.display = "none"
+          outerRefs.current[indices].style.border = "none"
+          gridRefs.current[indices].children[0].style.backgroundColor = "rgb(30 41 59/1)"
+        }
+      })
+    }
+  }, [selectIndex])
+
+
   const handleAddCell = () => {
-    // setcells((cells)=>{
-    //   const updatedCells = [...cells]
-    //   updatedCells.push('')
-    //   return updatedCells
-    // })
-    settextArea((textArea) => {
-      const addedCell = [...textArea]
-      addedCell.push('')
-      return addedCell
-    })
+    if (selectIndex === null) {
+      settextArea((textArea) => {
+        const addedCell = [...textArea]
+        addedCell.push('')
+        return addedCell
+      })
+      const textAreaLength = textArea.length
+      setSelectIndex(textAreaLength)
+    }
+    else {
+      settextArea((textArea) => {
+        const addedCell = [...textArea]
+        addedCell.splice(selectIndex + 1, 0, '')
+        return addedCell
+      })
+      setSelectIndex(selectIndex + 1)
+    }
   }
 
   return (
@@ -154,6 +184,7 @@ const page = ({ params }) => {
           {textArea.map((e, index) => {
             return <>
               <div onClick={(e) => {
+                setSelectIndex(index)
                 textArea.map((element, indices) => {
                   if (indices == index) {
                     outerRefs.current[indices].style.transition = "all 0.4s ease"
@@ -170,14 +201,16 @@ const page = ({ params }) => {
                   }
                 })
               }} ref={(el) => (parentRefs.current[index] = el)} key={index} style={{ height: "64px" }} className="cells flex justify-center items-center relative z-[2] w-[78vw] h-16 m-auto mb-8 mt-7 ml-1 bg-slate-900">
-                <div style={{ display: "none" }} className="flex justify-center gap-3 items-center rounded-sm border-[0.2px] border-yellow-300 absolute z-[3] top-[-3vh] right-10 w-[10vw] h-[5vh] bg-slate-950">
-                  <Image className="p-[2.5px] rounded-md hover:bg-gray-700 cursor-pointer" src="/play_pic.png" width={22} height={22} alt="play_icon" />
-                  <Image className="p-[2.5px] rounded-md hover:bg-gray-700 cursor-pointer" src="/play_pic.png" width={22} height={22} alt="play_icon" />
-                  <Image className="p-[3px] rounded-md hover:bg-gray-700 cursor-pointer" src="/trash_can.png" width={22} height={22} alt="play_icon" />
+                <div style={{ display: "none" }} className="flex justify-center gap-3 items-center rounded-md absolute z-[3] top-[-3vh] right-10 w-[10vw] h-[5vh] bg-yellow-800 shadow-sm shadow-black">
+                  <Image className="p-[2.5px] rounded-md hover:bg-yellow-950 cursor-pointer" src="/play_pic.png" width={22} height={22} alt="play_icon" />
+                  <Image className="p-[2.5px] rounded-md hover:bg-yellow-950 cursor-pointer" src="/play_pic.png" width={22} height={22} alt="play_icon" />
+                  <Image className="p-[3px] rounded-md hover:bg-yellow-950 cursor-pointer" src="/trash_can.png" width={22} height={22} alt="play_icon" />
                 </div>
                 <div ref={(el) => (gridRefs.current[index] = el)} style={{ height: "64px" }} className="grid grid-cols-[0.3vw_3.2vw] grid-rows-[32px_32px] absolute left-0 w-[3.5vw] h-16 ">
                   <div className="rounded-md col-start-1 col-end-2 row-start-1 row-span-3 bg-slate-800"></div>
-                  <div className="flex justify-center items-center col-start-2 col-end-3 row-start-1 row-end-2"><Image className="p-[2.5px] rounded-md hover:bg-gray-700 cursor-pointer" src="/play_pic.png" width={22} height={22} alt="play_icon" /></div>
+                  <div className="flex justify-center items-center col-start-2 col-end-3 row-start-1 row-end-2"><Image onClick={() => {
+                    runProgram(textArea[index])
+                  }} className="p-[2.5px] rounded-md hover:bg-gray-700 cursor-pointer" src="/play_pic.png" width={22} height={22} alt="play_icon" /></div>
                   <div className="gridChild col-start-2 col-end-3 row-start-2 row-end-4 font-light mb-1">{`[ ]`}</div>
                 </div>
                 <div ref={(el) => (outerRefs.current[index] = el)} style={{ height: "64px" }} className="flex justify-center items-center absolute top-0 right-0 w-[74.5vw] h-16 bg-slate-800">
@@ -195,7 +228,7 @@ const page = ({ params }) => {
                       parentRefs.current[index].style.height = `${inputRefs.current[index].scrollHeight + 43}px`;
                       gridRefs.current[index].style.height = `${inputRefs.current[index].scrollHeight + 43}px`;
                     }
-                  }} key={index} ref={(el) => (inputRefs.current[index] = el)} style={{ height: "20px" }} className="textarea text border-[0.2px] justify-start items-center focus:outline-none h-[20px] resize-none inline-block ml-5 bg-slate-800 w-[71vw] overflow-hidden"></textarea>
+                  }} key={index} ref={(el) => (inputRefs.current[index] = el)} style={{ height: "20px" }} spellCheck="false" className="textarea text border-[0.2px] justify-start items-center focus:outline-none h-[20px] resize-none inline-block ml-5 bg-slate-800 w-[71vw] overflow-hidden"></textarea>
                 </div>
               </div>
             </>

@@ -37,6 +37,20 @@
     font-size: 12.5px;
 }
 
+.child_main1::-webkit-scrollbar {
+    width:13px;
+    border:none;
+    height: 50vh;
+}
+
+.child_main1::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.child_main1::-webkit-scrollbar-thumb {
+    background-color: rgba(79, 79, 79, 0.47);
+    border-radius: 10px;
+}
 
 .project_name_drop_down::-webkit-scrollbar {
     width: 13px;
