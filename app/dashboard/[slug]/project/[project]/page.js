@@ -7,6 +7,8 @@ import './project.css'
 
 const page = ({ params }) => {
 
+  const [evalAll, setevalAll] = useState("")
+  const [kl, setkl] = useState({})
   const projectRef = useRef();
   const actionIcons = useState(false)
   const projectNameDropDown = useRef();
@@ -22,6 +24,19 @@ const page = ({ params }) => {
   const parentRefs = useRef([])
   const gridRefs = useRef([])
   const [selectIndex, setSelectIndex] = useState(null)
+
+  useEffect(() => {
+    const keywords = process.env.NEXT_PUBLIC_JS_KEYWORDS.split(",")
+    const newKeywordsList = {}
+    keywords.forEach(e => {
+      newKeywordsList[e] = 1
+    })
+    setkl((kl) => {
+      let updatedKL = { ...kl }
+      updatedKL = newKeywordsList
+      return updatedKL
+    })
+  }, [])
 
   useEffect(() => {
     async function main() {
@@ -147,6 +162,11 @@ const page = ({ params }) => {
     }
   }
 
+  useEffect(() => {
+    console.log(textArea)
+  }, [textArea])
+
+
   return (
     <>
       <div className="main flex justify-center absolute w-screen">
@@ -200,7 +220,7 @@ const page = ({ params }) => {
                     gridRefs.current[indices].children[0].style.backgroundColor = "rgb(30 41 59/1)"
                   }
                 })
-              }} ref={(el) => (parentRefs.current[index] = el)} key={index} style={{ height: "64px" }} className="cells flex justify-center items-center relative z-[2] w-[78vw] h-16 m-auto mb-8 mt-7 ml-1 bg-slate-900">
+              }} ref={(el) => (parentRefs.current[index] = el)} key={index} style={{ height: "64px" }} className="cells flex justify-center items-center relative z-[2] w-[78vw] h-16 m-auto mb-1 mt-7 ml-1 bg-slate-900">
                 <div style={{ display: "none" }} className="flex justify-center gap-3 items-center rounded-md absolute z-[3] top-[-3vh] right-10 w-[10vw] h-[5vh] bg-yellow-800 shadow-sm shadow-black">
                   <Image className="p-[2.5px] rounded-md hover:bg-yellow-950 cursor-pointer" src="/play_pic.png" width={22} height={22} alt="play_icon" />
                   <Image className="p-[2.5px] rounded-md hover:bg-yellow-950 cursor-pointer" src="/play_pic.png" width={22} height={22} alt="play_icon" />
@@ -209,7 +229,22 @@ const page = ({ params }) => {
                 <div ref={(el) => (gridRefs.current[index] = el)} style={{ height: "64px" }} className="grid grid-cols-[0.3vw_3.2vw] grid-rows-[32px_32px] absolute left-0 w-[3.5vw] h-16 ">
                   <div className="rounded-md col-start-1 col-end-2 row-start-1 row-span-3 bg-slate-800"></div>
                   <div className="flex justify-center items-center col-start-2 col-end-3 row-start-1 row-end-2"><Image onClick={() => {
-                    runProgram(textArea[index])
+                    let text = textArea[index]
+                    let rP = runProgram(evalAll + "\n" + text)
+                    if (rP) {
+                      let declaredText = ""
+                      let regex = /^(const|let|var)\s+(\w+)\s*=\s*([^;\n]+);?/gm
+                      let result = [...text.matchAll(regex)]
+                      result.forEach(e => {
+                        declaredText = declaredText + "\n" + e[0]
+                        text = text.replace(e[0], "")
+                      })
+                      setevalAll(evalAll=>evalAll+'\n'+declaredText)
+                      console.log(evalAll)
+                    }
+                    else {
+                      console.log(rP)
+                    }
                   }} className="p-[2.5px] rounded-md hover:bg-gray-700 cursor-pointer" src="/play_pic.png" width={22} height={22} alt="play_icon" /></div>
                   <div className="gridChild col-start-2 col-end-3 row-start-2 row-end-4 font-light mb-1">{`[ ]`}</div>
                 </div>
@@ -231,6 +266,7 @@ const page = ({ params }) => {
                   }} key={index} ref={(el) => (inputRefs.current[index] = el)} style={{ height: "20px" }} spellCheck="false" className="textarea text border-[0.2px] justify-start items-center focus:outline-none h-[20px] resize-none inline-block ml-5 bg-slate-800 w-[71vw] overflow-hidden"></textarea>
                 </div>
               </div>
+              <div className="w-[78vw] h-9 border-2 border-yellow-200 ml-1"></div>
             </>
           })}
         </div>
