@@ -8,6 +8,7 @@ import './project.css'
 const page = ({ params }) => {
 
   const [evalAll, setevalAll] = useState("")
+  const [runCount, setRunCount] = useState([])
   const [kl, setkl] = useState({})
   const projectRef = useRef();
   const actionIcons = useState(false)
@@ -23,6 +24,8 @@ const page = ({ params }) => {
   const outerRefs = useRef([])
   const parentRefs = useRef([])
   const gridRefs = useRef([])
+  const countRefs = useRef([])
+  const parentoutputRefs = useRef([])
   const [selectIndex, setSelectIndex] = useState(null)
 
   useEffect(() => {
@@ -83,6 +86,11 @@ const page = ({ params }) => {
 
   useEffect(() => {
     settextArea(cells.map(cell => cell))
+    setRunCount((runCount) => {
+      const array = new Array(3).fill(0);
+      return array
+    })
+    console.log("Run COunt:", runCount)
   }, [cells])
 
 
@@ -131,11 +139,13 @@ const page = ({ params }) => {
           parentRefs.current[indices].children[0].style.display = "flex"
           outerRefs.current[indices].style.border = "1px rgb(253 224 71/ 1) solid"
           gridRefs.current[indices].children[0].style.backgroundColor = "rgb(253 224 71/ 1)"
+          parentoutputRefs.current[indices].children[0].children[0].style.backgroundColor = "rgb(253 224 71/ 1)"
         }
         else {
           parentRefs.current[indices].children[0].style.display = "none"
           outerRefs.current[indices].style.border = "none"
           gridRefs.current[indices].children[0].style.backgroundColor = "rgb(30 41 59/1)"
+          parentoutputRefs.current[indices].children[0].children[0].style.backgroundColor = "rgb(30 41 59/1)"
         }
       })
     }
@@ -149,6 +159,11 @@ const page = ({ params }) => {
         addedCell.push('')
         return addedCell
       })
+      setRunCount((runCount) => {
+        const updatedRunCount = [...runCount]
+        updatedRunCount.push(0)
+        return updatedRunCount
+      })
       const textAreaLength = textArea.length
       setSelectIndex(textAreaLength)
     }
@@ -158,8 +173,37 @@ const page = ({ params }) => {
         addedCell.splice(selectIndex + 1, 0, '')
         return addedCell
       })
+      setRunCount((runCount) => {
+        const updatedRunCount = [...runCount]
+        updatedRunCount.splice(selectIndex + 1, 0, 0)
+        return updatedRunCount
+      })
       setSelectIndex(selectIndex + 1)
     }
+  }
+
+  const deleteIndex = () => {
+    if (parentRefs.current[selectIndex]) {
+      parentRefs.current[selectIndex].style.height = "64px"
+      gridRefs.current[selectIndex].style.height = "64px"
+      outerRefs.current[selectIndex].style.height = "64px"
+      inputRefs.current[selectIndex].style.height = "20px"
+    }
+    settextArea((textArea) => {
+      let updatedTextArea = [...textArea]
+      updatedTextArea.splice(selectIndex, 1)
+      return updatedTextArea
+    })
+    setRunCount((runCount) => {
+      const updatedRunCount = [...runCount]
+      updatedRunCount.splice(selectIndex, 1)
+      return updatedRunCount
+    })
+    if (parentoutputRefs.current) {
+      parentoutputRefs.current[selectIndex].style.height = "0px"
+      parentoutputRefs.current.splice(selectIndex, 1)
+    }
+    console.log("After parent:", parentoutputRefs)
   }
 
   useEffect(() => {
@@ -178,7 +222,7 @@ const page = ({ params }) => {
           <div ref={projectNameDropDown} className="project_name_drop_down flex-col justify-end items-start overflow-hidden hover:overflow-y-scroll hover:overflow-x-hidden absolute top-11 left-[3vw] w-[17vw] max-h-0">
             {userProjectList.map((document, index) => {
               return <>
-                <div onClick={childClick} key={index} data-project={document} className="project_text_child flex justify-start items-center hover:bg-gray-900 pl-4 w-[17vw] h-9 cursor-pointer">{document.toUpperCase()}</div>
+                <div onClick={childClick} key={index} data-project={document} className="project_text_child flex justify-start items-center hover:bg-gray-900 pl-4 w-[17vw] h-9 cursor-pointer">{`${document}.ijsnb`}</div>
               </>
             })}
           </div>
@@ -224,29 +268,45 @@ const page = ({ params }) => {
                 <div style={{ display: "none" }} className="flex justify-center gap-3 items-center rounded-md absolute z-[3] top-[-3vh] right-10 w-[10vw] h-[5vh] bg-yellow-800 shadow-sm shadow-black">
                   <Image className="p-[2.5px] rounded-md hover:bg-yellow-950 cursor-pointer" src="/play_pic.png" width={22} height={22} alt="play_icon" />
                   <Image className="p-[2.5px] rounded-md hover:bg-yellow-950 cursor-pointer" src="/play_pic.png" width={22} height={22} alt="play_icon" />
-                  <Image className="p-[3px] rounded-md hover:bg-yellow-950 cursor-pointer" src="/trash_can.png" width={22} height={22} alt="play_icon" />
+                  <Image onClick={deleteIndex} className="p-[3px] rounded-md hover:bg-yellow-950 cursor-pointer" src="/trash_can.png" width={22} height={22} alt="play_icon" />
                 </div>
                 <div ref={(el) => (gridRefs.current[index] = el)} style={{ height: "64px" }} className="grid grid-cols-[0.3vw_3.2vw] grid-rows-[32px_32px] absolute left-0 w-[3.5vw] h-16 ">
                   <div className="rounded-md col-start-1 col-end-2 row-start-1 row-span-3 bg-slate-800"></div>
-                  <div className="flex justify-center items-center col-start-2 col-end-3 row-start-1 row-end-2"><Image onClick={() => {
-                    let text = textArea[index]
-                    let rP = runProgram(evalAll + "\n" + text)
-                    if (rP) {
-                      let declaredText = ""
-                      let regex = /^(const|let|var)\s+(\w+)\s*=\s*([^;\n]+);?/gm
-                      let result = [...text.matchAll(regex)]
-                      result.forEach(e => {
-                        declaredText = declaredText + "\n" + e[0]
-                        text = text.replace(e[0], "")
+                  <div className="flex justify-center items-center col-start-2 col-end-3 row-start-1 row-end-2"><Image onClick={async () => {
+                    if (inputRefs.current[index].value.trim() === "") {
+                      setRunCount((runCount) => {
+                        const updatedRunCount = [...runCount]
+                        updatedRunCount[index] = 0
+                        return updatedRunCount
                       })
-                      setevalAll(evalAll=>evalAll+'\n'+declaredText)
-                      console.log(evalAll)
                     }
                     else {
-                      console.log(rP)
+                      setRunCount((runCount) => {
+                        const updatedRunCount = [...runCount]
+                        updatedRunCount[index] += 1
+                        return updatedRunCount
+                      })
+                    }
+                    let text = textArea[index]
+                    let rP = await runProgram(text)
+                    let nCounts = (rP.split('\n').length) - 2
+                    if (parentoutputRefs.current[index]) {
+                      if (rP.length != 0) {
+                        const contentHeight = nCounts * 20
+                        parentoutputRefs.current[index].children[1].children[0].style.transition = "all 0.5s ease"
+                        parentoutputRefs.current[index].style.height = `${40 + contentHeight}px`
+                        parentoutputRefs.current[index].children[0].style.height = `${40 + contentHeight}px`
+                        parentoutputRefs.current[index].children[1].style.height = `${40 + contentHeight}px`
+                        parentoutputRefs.current[index].children[1].children[0].style.height = `${20 + contentHeight}px`
+                        parentoutputRefs.current[index].children[1].children[0].innerHTML = rP.toString().replace(/\n/g, "<br>");
+                      }
+                      else {
+                        parentoutputRefs.current[index].children[1].children[0].style.transition = "all 0.5s ease"
+                        parentoutputRefs.current[index].style.height = '0px'
+                      }
                     }
                   }} className="p-[2.5px] rounded-md hover:bg-gray-700 cursor-pointer" src="/play_pic.png" width={22} height={22} alt="play_icon" /></div>
-                  <div className="gridChild col-start-2 col-end-3 row-start-2 row-end-4 font-light mb-1">{`[ ]`}</div>
+                  <div ref={(el) => (countRefs.current[index] = el)} className="gridChild text-sm col-start-2 col-end-3 row-start-2 row-end-4 font-light mb-1">{(runCount[index] == 0) ? `[ ]` : `[${runCount[index]}]`}</div>
                 </div>
                 <div ref={(el) => (outerRefs.current[index] = el)} style={{ height: "64px" }} className="flex justify-center items-center absolute top-0 right-0 w-[74.5vw] h-16 bg-slate-800">
                   <textarea value={[...textArea][index]} onChange={(e) => {
@@ -266,7 +326,14 @@ const page = ({ params }) => {
                   }} key={index} ref={(el) => (inputRefs.current[index] = el)} style={{ height: "20px" }} spellCheck="false" className="textarea text border-[0.2px] justify-start items-center focus:outline-none h-[20px] resize-none inline-block ml-5 bg-slate-800 w-[71vw] overflow-hidden"></textarea>
                 </div>
               </div>
-              <div className="w-[78vw] h-9 border-2 border-yellow-200 ml-1"></div>
+              <div ref={(el) => (parentoutputRefs.current[index] = el)} className="flex justify-center items-center w-[78vw] h-0 ml-1 mb-2 overflow-hidden">
+                <div className='flex justify-start items-center w-[3.5vw] h-0'>
+                  <div className='w-[0.3vw] min-h-full bg-slate-800 rounded-md'></div>
+                </div>
+                <div className='flex justify-center items-center w-[74.5vw] h-0'>
+                  <div className='text flex justify-start items-start w-[72vw] p-0 h-0 overflow-auto'></div>
+                </div>
+              </div>
             </>
           })}
         </div>

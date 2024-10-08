@@ -235,31 +235,31 @@ const page = () => {
                     </div>}
                     <div ref={sI_lI} className='flex mt-11 mb-11 relative z-[3] justify-between rounded-md shadow-md shadow-black w-56'>
                         <div ref={hidden} className='absolute z-[2] w-28 h-11 top-0 bg-yellow-700 rounded-md'></div>
-                        <span onClick={signupClick} className='signup flex relative z-[3] justify-center items-center rounded-md w-28 h-11 text-white font-mono font-extrabold text-xl cursor-default transition-all' >Signup</span>
-                        <span onClick={loginClick} className='login flex relative z-[3] justify-center items-center rounded-md w-28 h-11 text-white font-mono font-extrabold text-xl transition-all'>Login</span>
+                        <span onClick={signupClick} className='signup font flex relative z-[3] justify-center items-center rounded-md w-28 h-11 text-white font-mono font-bold text-xl cursor-default transition-all' >Signup</span>
+                        <span onClick={loginClick} className='login font flex relative z-[3] justify-center items-center rounded-md w-28 h-11 text-white font-mono font-bold text-xl transition-all'>Login</span>
                     </div>
                     <div ref={div_3} className='flex absolute z-[1] rounded-3xl w-[90vw] h-[50vh]'>
                         <div ref={main_signup} className='flex flex-col mt-10 gap-3 justify-center items-center absolute left-[30vw] w-[30vw] h-[60vh] rounded-bl-3xl rounded-tl-3xl'>
-                            <input type="text" name="Username" value={signupInput.Username} onChange={signupData} className='email w-[25vw] p-1 font-mono font-bold shadow-md shadow-black' placeholder="Username or Email ID" />
-                            <input type="password" name="Password" value={signupInput.Password} onChange={signupData} className='password w-[25vw] p-1 font-mono font-bold shadow-md shadow-black' placeholder="Password" />
+                            <input type="text" name="Username" value={signupInput.Username} onChange={signupData} className='font email w-[25vw] p-1 font-mono font-semibold shadow-md shadow-black' placeholder="Username or Email ID" />
+                            <input type="password" name="Password" value={signupInput.Password} onChange={signupData} className='font password w-[25vw] p-1 font-mono font-semibold shadow-md shadow-black' placeholder="Password" />
                             <div className='flex justify-center items-center w-[25vw] h-5'>
                                 <div className="bg-yellow-200 low shadow-sm shadow-black w-[10vw] h-[1.5px]"></div>
-                                <div className="or_text flex justify-center items-center w-[5vw] h-5 text-sm">OR</div>
+                                <div className="font or_text flex justify-center items-center w-[5vw] h-5 text-sm">OR</div>
                                 <div className="bg-yellow-200 shadow-sm shadow-black w-[10vw] h-[1.5px]"></div>
                             </div>
                             <div ref={github_button} onMouseUp={githubbuttonUp} onMouseDown={githubbuttonDown} onClick={SignIn} className='select-none relative flex cursor-default github_text font-mono text-sm gap-3 font-semibold justify-start items-center border border-black w-[20vw] h-10 rounded-md shadow-md shadow-black'>
                                 <div className='flex justify-center mx-2 items-center rounded-md w-[3.5vw] h-7'>
                                     <Image src="/github_icon.png" height={500} width={500} alt="GitHub Icon" />
                                 </div>
-                                <div className="flex justify-center items-center w-[12vw] h-10">Sign up with github</div>
+                                <div className="flex font justify-center items-center w-[12vw] h-10">Sign up with github</div>
                             </div>
-                            <button type="button" name="signup" onClick={submitHandlerType} ref={signup_button} onMouseUp={signupbuttonUp} onMouseDown={signupbuttonDown} className='relative border border-black w-20 p-1 font-mono font-bold rounded-md mt-3 shadow-md shadow-black'>Signup</button>
+                            <button type="button" name="signup" onClick={submitHandlerType} ref={signup_button} onMouseUp={signupbuttonUp} onMouseDown={signupbuttonDown} className='font relative border border-black w-20 p-1 font-mono font-semibold rounded-md mt-3 shadow-md shadow-black'>Signup</button>
                         </div>
                         <div ref={main_login} className='flex flex-col mt-10 gap-3 justify-center items-center absolute w-[30vw] h-[60vh] right-[0vw] rounded-tr-3xl rounded-br-3xl'>
                             <input type="text" name="Username" value={loginInput.Username} onChange={loginData} className='email w-[25vw] p-1 font-mono font-bold shadow-md shadow-black' placeholder="Username or Email ID" />
                             <input type="password" name="Password" value={loginInput.Password} onChange={loginData} className='password w-[25vw] p-1 font-mono font-bold shadow-md shadow-black' placeholder="Password" />
-                            <div className="flex justify-center items-center h-9"><span onClick={fP} className='fp font-semibold hover:cursor-pointer'>Forgot Password?</span></div>
-                            <button type="button" name="login" onClick={submitHandlerType} ref={login_button} onMouseUp={loginbuttonUp} onMouseDown={loginbuttonDown} className='relative border border-black w-20 p-1 font-mono font-bold rounded-md mt-3 shadow-md shadow-black'>Login</button>
+                            <div className="flex justify-center items-center h-9"><span onClick={fP} className='font fp font-semibold hover:cursor-pointer'>Forgot Password?</span></div>
+                            <button type="button" name="login" onClick={submitHandlerType} ref={login_button} onMouseUp={loginbuttonUp} onMouseDown={loginbuttonDown} className='font relative border border-black w-20 p-1 font-mono font-semibold rounded-md mt-3 shadow-md shadow-black'>Login</button>
                         </div>
                     </div>
                 </div>

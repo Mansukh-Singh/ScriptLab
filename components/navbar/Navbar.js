@@ -81,18 +81,18 @@ const Navbar = () => {
         return (
             <>
                 {logoutDiv && <div onMouseOver={usericonOver} onMouseLeave={usericonLeave} className="absolute flex justify-center items-end z-20 top-16 right-3 w-[20vw] h-[30vh] transition-all">
-                    <div ref={usericonDiv} className='flex-col overflow-hidden justify-center items-center bg-slate-300 shadow-md shadow-black rounded-lg w-[0vw] h-[0vh]'>
+                    <div ref={usericonDiv} className='flex-col overflow-hidden justify-center items-center bg-slate-950 shadow-sm shadow-yellow-300 rounded-lg w-[0vw] h-[0vh]'>
                         <div className="flex justify-center items-center w-[20vw] h-[15vh] text-lg font-mono font-semibold text-black border-b-[1px] border-gray-800 overflow-hidden">
                             <div className="flex justify-start items-center gap-1 w-[18vw] h-[12vh] overflow-hidden">
                                 <div className='flex justify-center items-center h-14 w-14'>
-                                    <span className="flex justify-center items-center text-white w-11 h-11 bg-slate-600 rounded-full shadow-md shadow-black">{trueUser.username[0].toUpperCase()}</span>
+                                    <span className="text flex justify-center items-center text-white w-11 h-11 bg-slate-700 rounded-full">{trueUser.username[0].toUpperCase()}</span>
                                 </div>
                                 <div className='flex justify-center items-center w-44 h-11 overflow-hidden min-w-0 text-ellipsis whitespace-nowrap'>
-                                    <span className='inline-block  justify-between pl-1 overflow-hidden min-w-0 text-ellipsis whitespace-nowrap items-center text-sm w-44'>{trueUser.username}</span>
+                                    <span className='text username inline-block justify-between pl-1 overflow-hidden min-w-0 text-ellipsis text-white whitespace-nowrap items-center text-sm w-44'>{trueUser.username}</span>
                                 </div>
                             </div>
                         </div>
-                        <span onClick={logOut} className="flex justify-center items-center text-md font-bold text-black cursor-pointer hover:text-gray-700 w-[20vw] h-[10vh]">Logout</span>
+                        <span onClick={logOut} className="flex justify-center items-center text-md font-bold text-slate-300 cursor-pointer hover:text-slate-500 w-[20vw] h-[10vh]">Logout</span>
                     </div>
                 </div>}
                 <div className='relative top-0 flex justify-between items-center h-16 bg-slate-700 w-screen '>
@@ -103,7 +103,7 @@ const Navbar = () => {
                             <span className='lab text-2xl text-yellow-300 font-bold'>LAB</span>
                         </div>
                     </div>
-                    <span onMouseOver={usericonOver} onMouseLeave={usericonLeave} className="flex justify-center items-center mx-5 w-16 h-16"><span className='login border-gray-800 relative w-[40px] h-[40px] flex justify-center items-center text-lg font-mono font-bold hover:shadow-md hover:shadow-black bg-yellow-400 hover:text-black'>{trueUser.username[0].toUpperCase()}</span></span>
+                    <span onMouseOver={usericonOver} onMouseLeave={usericonLeave} className="flex justify-center items-center mx-5 w-16 h-16"><span className='text user_icon login border-gray-800 relative w-[40px] h-[40px] flex justify-center items-center font-bold  bg-black'>{trueUser.username[0].toUpperCase()}</span></span>
                 </div>
             </>
         )
@@ -113,13 +113,13 @@ const Navbar = () => {
         return (
             <div className='relative top-0 flex justify-between items-center h-16 bg-slate-700 w-screen '>
                 <div className='flex justify-start items-center gap-2'>
-                    <Link href='/'><span className='relative inline-block ml-5 p-1 text-yellow-300 font-extrabold rounded-lg text-3xl font-mono hover:shadow-md hover:shadow-black hover:bottom-[2px]'>&lt;/&gt;</span></Link>
+                    <Link href='/'><span className='font relative inline-block ml-5 p-1 text-yellow-300 font-extrabold rounded-lg text-3xl font-mono'>&lt;/&gt;</span></Link>
                     <div className="flex justify-center items-center gap-[4px]">
-                        <span className='script text-xl font-mono font-bold'>Script</span>
-                        <span className='lab text-2xl text-yellow-300 font-bold'>LAB</span>
+                        <span className='script text-xl text font-bold'>Script</span>
+                        <span className='lab text text-2xl text-yellow-300 font-bold'>LAB</span>
                     </div>
                 </div>
-                <Link href='/login'><span className='login relative inline-block p-2 bg-slate-700 px-3 mx-8 rounded-md text-lg font-mono font-bold hover:bottom-[2px] hover:shadow-md hover:shadow-black hover:bg-yellow-400 hover:text-black'>Login</span></Link>
+                <Link href='/login'><span className='login text relative inline-block p-2 bg-slate-700 px-3 mx-8 rounded-md text-lg font-bold hover:text-yellow-300'>Login</span></Link>
             </div>
         )
     }

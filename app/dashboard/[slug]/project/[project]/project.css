@@ -111,4 +111,10 @@
 .gridChild {
     justify-self: center;
     align-self: flex-end;
+    font-family: "Exo 2", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
+    text-shadow: 0px 1px 5px black;
+    letter-spacing: 1px;
+    font-size: 13px;
 }

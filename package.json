@@ -17,7 +17,8 @@
     "react-dom": "^18",
     "react-hook-form": "^7.53.0",
     "react-redux": "^9.1.2",
-    "redux": "^5.0.1"
+    "redux": "^5.0.1",
+    "vm2": "^3.9.19"
   },
   "devDependencies": {
     "eslint": "^8",

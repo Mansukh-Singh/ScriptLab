@@ -1,8 +1,41 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap');
 
 body {
   background: linear-gradient(to bottom, black 75%, red 25%); /* Adjust percentages to make black more visible */
   color: white; /* Optional: set text color to contrast with the background */
+  overflow-x: hidden;
+}
+
+body::-webkit-scrollbar {
+  width:13px;
+  border:none;
+  height: 50vh;
+}
+
+body::-webkit-scrollbar-track {
+  background-color: rgb(0, 0, 0);
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: rgb(253, 223, 71);
+}
+
+.child_div {
+  border-width: 11px;
+  border-left: 11px;
+  border-top: 11px;
+  border-top-left-radius: 0px;
+  border-top-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 25px;
+  box-shadow: inset 0px 3px 10px #000000;
+}
+
+.text {
+  font-family: "Exo 2", sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
 }

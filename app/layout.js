@@ -18,11 +18,11 @@ export default function RootLayout({ children }) {
         <head>
           <link rel="icon" href="/js_logo.png" />
         </head>
-        <body className={`${inter.className} relative min-h-[100vh]`}>
+        <body className={`${inter.className} relative h-full overflow-y-auto`}>
           <SessionWrapper>
           <StoreProvider>
           <Navbar />
-          <div className="absolute top-0 z-[-2] min-h-[100vh] w-screen bg-gray-900"></div>
+          <div className="fixed top-0 left-0 z-[-2] min-h-screen w-full bg-gray-900"></div>
           {children}
           </StoreProvider>
           </SessionWrapper>
