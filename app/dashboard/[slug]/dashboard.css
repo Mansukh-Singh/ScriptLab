@@ -40,3 +40,21 @@
 .projectdivcancelButton {
     text-shadow: 0px 2px 10px black;
 }
+
+.projectButtonDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.projectListChildDiv {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.858);
+}
+.projectlistNestChildDiv:hover {
+    background-color: rgba(255, 230, 0, 0.361);
+}

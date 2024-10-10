@@ -96,6 +96,9 @@ const page = ({ params }) => {
 
   const projectDivClick = () => {
     setdrop(!drop)
+  }
+
+  useEffect(() => {
     if (projectRef.current || projectNameDropDown.current) {
       if (drop) {
         projectRef.current.classList.add("rotate-90")
@@ -109,7 +112,8 @@ const page = ({ params }) => {
         projectNameDropDown.current.style.maxHeight = '0vh'
       }
     }
-  }
+  }, [drop])
+
 
   const childClick = (e) => {
     window.location.href = `/dashboard/${decodeURIComponent(params.slug)}/project/${e.target.dataset.project}`
