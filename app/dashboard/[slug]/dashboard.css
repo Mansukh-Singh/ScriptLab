@@ -58,3 +58,17 @@
 .projectlistNestChildDiv:hover {
     background-color: rgba(255, 230, 0, 0.361);
 }
+
+.projectListScroll::-webkit-scrollbar {
+    width: 10px;
+}
+
+.projectListScroll::-webkit-scrollbar-track {
+    background-color: rgba(30, 41, 59, 0);
+
+}
+
+.projectListScroll::-webkit-scrollbar-thumb {
+    background-color: rgb(255, 234, 0);
+    border-radius: 5px;
+}

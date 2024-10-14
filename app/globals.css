@@ -10,8 +10,7 @@ body {
 }
 
 body::-webkit-scrollbar {
-  width:13px;
-  border:none;
+  width:11px;
   height: 50vh;
 }
 
@@ -21,6 +20,7 @@ body::-webkit-scrollbar-track {
 
 body::-webkit-scrollbar-thumb {
   background-color: rgb(253, 223, 71);
+  border-radius: 5px;
 }
 
 .child_div {

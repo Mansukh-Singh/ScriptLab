@@ -152,8 +152,8 @@ const page = ({ params }) => {
                     setprojectList(true)
                 }} onMouseLeave={() => { setprojectList(false) }} className="flex justify-center items-center cursor-pointer text-yellow-300 font-semibold hover:border-yellow-300 hover:text-white w-52 h-8 mb-1 border-[1.5px] border-white rounded-md transition-all">
                     <span className="params flex justify-center items-center h-6 text-sm">Go to the existing project</span>
-                    {projectList && <div ref={projectListRef} onMouseOver={() => { setprojectList(true) }} onMouseLeave={() => { setprojectList(false) }} className={`flex justify-center items-end absolute top-[4vw] w-[30vw] h-[30vh] transition-all duration-500 ease-in-out transform ${projectList ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
-                        <div className="projectListChildDiv w-[30vw] h-[27vh] border-[1.5px] rounded-md border-yellow-300 overflow-x-hidden overflow-y-auto">
+                    {projectList && <div ref={projectListRef} onMouseOver={() => { setprojectList(true) }} onMouseLeave={() => { setprojectList(false) }} className={`flex justify-center items-end absolute top-[4vw] w-[30vw] h-[30vh] shadow-md shadow-black transition-all duration-500 ease-in-out transform ${projectList ? 'opacity-100 scale-100' : 'opacity-0 scale-95'}`}>
+                        <div className="projectListScroll projectListChildDiv w-[30vw] h-[27vh] border-[1.5px] rounded-md border-yellow-300 overflow-x-hidden overflow-y-auto">
                             {projectNameList.map((name, index) => {
                                 return <>
                                     <div key={index} ref={(el) => (projectNameRef.current[index] = el)} onClick={() => {
@@ -166,7 +166,7 @@ const page = ({ params }) => {
                                         if (projectNameRef.current[index]) {
                                             projectNameRef.current[index].innerHTML = projectNameRef.current[index].innerHTML.split(".")[0]
                                         }
-                                    }} className='params projectlistNestChildDiv text-sm font-light p-2 pl-5 w-[30vw] border-[1px] border-yellow-300 h-10'>{name}</div>
+                                    }} className='params projectlistNestChildDiv text-sm font-light p-2 pl-5 w-[30vw] border-b-[1px] border-yellow-300 h-10'>{name}</div>
                                 </>
                             })}
                         </div>

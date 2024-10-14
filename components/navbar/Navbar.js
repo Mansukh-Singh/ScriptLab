@@ -67,7 +67,7 @@ const Navbar = () => {
 
     if (session) {
         return (
-            <div className='relative top-0 flex justify-between items-center h-16 bg-slate-700 w-screen '>
+            <div className='div_condition relative top-0 flex justify-between items-center h-16 bg-slate-700 w-screen '>
                 <div className='flex justify-start items-center gap-2'>
                     <Link href='/'><span className='relative inline-block ml-5 p-1 text-yellow-300 font-extrabold rounded-lg text-3xl font-mono hover:shadow-md hover:shadow-black hover:bottom-[2px]'>&lt;/&gt;</span></Link>
                     <div className="flex justify-center items-center gap-[4px]">
@@ -102,15 +102,15 @@ const Navbar = () => {
                         <span className="flex justify-center items-center w-[20vw] h-[10vh]"><span onClick={logOut} className='text-md font-bold text-slate-300 cursor-pointer hover:text-slate-500'>Logout</span></span>
                     </div>
                 </div>}
-                <div className='relative top-0 flex justify-between items-center h-14 w-screen border-yellow-300 border-b-[1px] shadow-md shadow-black'>
+                <div className='div_condition relative top-0 flex justify-between items-center h-14 w-screen'>
                     <div className='flex justify-start items-center gap-2'>
-                        <span className='text_style relative inline-block ml-5 p-1 text-yellow-300 font-extrabold rounded-lg text-3xl font-mono'>&lt;/&gt;</span>
+                        <span className='text_style relative inline-block ml-5 p-1 text-yellow-300 font-extrabold rounded-lg text-2xl font-mono'>&lt;/&gt;</span>
                         <div className="flex justify-center items-center gap-[4px]">
                             <span className='text_style script text-xl font-bold'>Script</span>
                             <span className='text_style lab text-2xl text-yellow-300 font-bold'>LAB</span>
                         </div>
                     </div>
-                    <span onMouseOver={usericonOver} onMouseLeave={usericonLeave} className="flex justify-center items-center mx-5 w-16 h-16"><span className='text_style user_icon text-sm login border-gray-800 relative w-[40px] h-[40px] flex justify-center items-center font-bold text-yellow-300 border-[1px] border-white'>{trueUser.username[0].toUpperCase()}</span></span>
+                    <span onMouseOver={usericonOver} onMouseLeave={usericonLeave} className="flex justify-center items-center mx-5 w-16 h-16"><span className='text_style user_icon text-sm login relative w-[38px] h-[38px] flex justify-center items-center font-bold text-yellow-300 border-[1.4px] border-white'>{trueUser.username[0].toUpperCase()}</span></span>
                 </div>
             </>
         )
@@ -118,15 +118,15 @@ const Navbar = () => {
 
     else {
         return (
-            <div className='relative top-0 flex justify-between items-center h-16 bg-slate-700 w-screen '>
+            <div className='div_condition relative top-0 flex justify-between items-center h-16 w-screen'>
                 <div className='flex justify-start items-center gap-2'>
-                    <Link href='/'><span className='font relative inline-block ml-5 p-1 text-yellow-300 font-extrabold rounded-lg text-3xl font-mono'>&lt;/&gt;</span></Link>
+                    <Link href='/'><span className='font text relative inline-block ml-5 p-1 text-yellow-300 font-extrabold rounded-lg text-2xl font-mono'>&lt;/&gt;</span></Link>
                     <div className="flex justify-center items-center gap-[4px]">
                         <span className='script text-xl text font-bold'>Script</span>
                         <span className='lab text text-2xl text-yellow-300 font-bold'>LAB</span>
                     </div>
                 </div>
-                <Link href='/login'><span className='login text relative inline-block p-2 bg-slate-700 px-3 mx-8 rounded-md text-lg font-bold hover:text-yellow-300'>Login</span></Link>
+                <Link href='/login'><span className='login text relative inline-block p-2 px-3 mx-8 rounded-md text-lg font-bold hover:text-yellow-300'>Login</span></Link>
             </div>
         )
     }

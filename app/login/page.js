@@ -242,7 +242,7 @@ const page = () => {
             {loading && <div className="loading fixed flex z-[6] top-0 left-0 justify-center items-center w-[100vw] h-[100vh]">
                 <div className="child_loading w-40 h-40"></div>
             </div>}
-            <div className='relative z-[0] overflow-hidden shadow-lg flex flex-col justify-items items-center loginboard w-[30vw] h-[60vh] m-auto mt-20 rounded-3xl  shadow-black'>
+            <div className='relative z-[0] overflow-hidden shadow-lg flex flex-col justify-items items-center loginboard w-[30vw] h-[60vh] m-auto mt-20 rounded-3xl border-[2px] border-yellow-300 shadow-black'>
                 {hiddendiv && <div className="absolute flex flex-col z-[7] justify-center items-center gap-3 rounded-3xl top-0 left-0 w-[30vw] h-[60vh]">
                     <span className="fog_pass flex justify-center items-center text-3xl font-semibold shadow-md shadow-black bg-yellow-500 text-white px-3 py-1 rounded-lg">Forgot Password</span>
                     <span className="r_password flex justify-center items-center font-mono font-semibold text-sm">We'll email you a password reset link.</span>
@@ -264,9 +264,9 @@ const page = () => {
                             <div className="font or_text flex justify-center items-center w-[5vw] h-5 text-sm">OR</div>
                             <div className="bg-yellow-200 shadow-sm shadow-black w-[10vw] h-[1.5px]"></div>
                         </div>
-                        <div ref={github_button} onMouseUp={githubbuttonUp} onMouseDown={githubbuttonDown} onClick={SignIn} className='select-none relative flex cursor-default github_text font-mono text-sm gap-3 font-semibold justify-start items-center border border-black w-[20vw] h-10 rounded-md shadow-md shadow-black'>
-                            <div className='flex justify-center mx-2 items-center rounded-md w-[3.5vw] h-7'>
-                                <Image src="/github_icon.png" height={500} width={500} alt="GitHub Icon" />
+                        <div ref={github_button} onMouseUp={githubbuttonUp} onMouseDown={githubbuttonDown} onClick={SignIn} className='select-none relative flex cursor-default github_text font-mono text-sm gap-3 font-semibold justify-start items-center  border-[1px] border-yellow-300 w-[20vw] h-10 rounded-md shadow-md shadow-black'>
+                            <div className='flex justify-center mx-2 rounded-full items-center w-14 h-4'>
+                                <Image className="rounded-full w-8 h-8" src="/github.png" height={400} width={400} alt="GitHub Icon" />
                             </div>
                             <div className="flex font justify-center items-center w-[12vw] h-10">Continue with github</div>
                         </div>
@@ -274,7 +274,7 @@ const page = () => {
                     </div>
                     <div ref={main_login} className='flex flex-col mt-10 gap-3 justify-center items-center absolute w-[30vw] h-[60vh] right-[0vw] rounded-tr-3xl rounded-br-3xl'>
                         <input type="text" name="Username" value={loginInput.Username} onChange={loginData} className='font email w-[25vw] p-1 font-mono font-bold shadow-md shadow-black' placeholder="Username or Email ID" />
-                        <input type="password" name="Password" value={loginInput.Password} onChange={loginData} className='font password w-[25vw] p-1 font-mono font-bold shadow-md shadow-black' placeholder="font Password" />
+                        <input type="password" name="Password" value={loginInput.Password} onChange={loginData} className='font password w-[25vw] p-1 font-mono font-bold shadow-md shadow-black' placeholder="Password" />
                         <div className="flex justify-center items-center h-9"><span onClick={fP} className='font fp font-semibold hover:cursor-pointer'>Forgot Password?</span></div>
                         <button type="button" name="login" onClick={submitHandlerType} ref={login_button} onMouseUp={loginbuttonUp} onMouseDown={loginbuttonDown} className='font relative border border-black w-20 p-1 font-mono font-semibold rounded-md mt-3 shadow-md shadow-black'>Login</button>
                     </div>

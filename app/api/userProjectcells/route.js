@@ -17,5 +17,8 @@ export async function DELETE(req, res) {
 }
 
 export async function PUT(req, res) {
-    return NextResponse.json({ message: 'Hello from DELETE' })
+    let data = await req.json()
+    let userProject = await userName(data.collectionName)
+    await userProject.updateOne({projectname:data.projectname},{ $set: { cells: data.textArea } })
+    return NextResponse.json({ message: 'Hello from PUT' })
 }
