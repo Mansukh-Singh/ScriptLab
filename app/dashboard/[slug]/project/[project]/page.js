@@ -12,6 +12,7 @@ const page = ({ params }) => {
   const [rotateOutput, setrotateOutput] = useState(false)
   const [rotateImage, setrotateImage] = useState([])
   const [runCount, setRunCount] = useState([])
+  const [outputText, setoutputText] = useState([])
   const [savecolor, setsavecolor] = useState(true)
   const saveBox = useRef()
   const projectRef = useRef();
@@ -24,6 +25,7 @@ const page = ({ params }) => {
   const [userProjectList, setuserProjectList] = useState([])
   const [textArea, settextArea] = useState([])
   const [cellsheight, setcellsheight] = useState([])
+  const [outputheight, setoutputheight] = useState([])
   const runButton = useRef()
   const inputRefs = useRef([])
   const outerRefs = useRef([])
@@ -81,6 +83,14 @@ const page = ({ params }) => {
       const updatedTextArea = cells.map(cell => cell.replace(/\\n/g, '\n'))
       return updatedTextArea
     })
+    setoutputText((outputText) => {
+      const updatedoutputText = new Array(textArea.length).fill('');
+      return updatedoutputText
+    })
+    setoutputheight((outputheight) => {
+      const updatedoutputheight = new Array(textArea.length).fill(-1);
+      return updatedoutputheight
+    })
     setRunCount((runCount) => {
       const array = new Array(cells.length).fill(0);
       return array
@@ -102,9 +112,7 @@ const page = ({ params }) => {
       })
       return updatedcellsheight
     })
-    console.log('CELLSHEIGHT:', cellsheight)
   }, [cells])
-
 
   const projectDivClick = () => {
     setdrop(!drop)
@@ -119,13 +127,7 @@ const page = ({ params }) => {
       body: JSON.stringify({ textArea: textArea, collectionName: decodeURIComponent(params.slug), projectname: decodeURIComponent(params.project) }),
     });
     let result = await response.json();
-    console.log('PUT REQUEST:', result)
     setsavecolor(true)
-    // if (saveBox.current) {
-    //   saveBox.current.style.transition = "all 0.5s ease"
-    //   saveBox.current.classList.add("bg-green-500")
-    //   saveBox.current.classList.remove("bg-red-500")
-    // }
   }
 
   useEffect(() => {
@@ -193,6 +195,16 @@ const page = ({ params }) => {
         addedCell.push('')
         return addedCell
       })
+      setoutputText((outputText) => {
+        const updatedoutputText = [...outputText]
+        updatedoutputText.push('')
+        return updatedoutputText
+      })
+      setoutputheight((outputheight) => {
+        const updatedoutputheight = [...outputheight]
+        updatedoutputheight.push(-1)
+        return updatedoutputheight
+      })
       setRunCount((runCount) => {
         const updatedRunCount = [...runCount]
         updatedRunCount.push(0)
@@ -218,10 +230,26 @@ const page = ({ params }) => {
       })
     }
     else {
+      if (parentoutputRefs.current[selectIndex+1]) {
+        parentoutputRefs.current[selectIndex+1].style.transition = "none"
+        parentoutputRefs.current[selectIndex+1].children[0].style.transition = "none"
+        parentoutputRefs.current[selectIndex+1].children[1].style.transition = "none"
+        parentoutputRefs.current[selectIndex+1].children[1].children[0].style.transition = "none"
+      }
       settextArea((textArea) => {
         const addedCell = [...textArea]
         addedCell.splice(selectIndex + 1, 0, '')
         return addedCell
+      })
+      setoutputText((outputText) => {
+        const updatedoutputText = [...outputText]
+        updatedoutputText.splice(selectIndex + 1, 0, '')
+        return updatedoutputText
+      })
+      setoutputheight((outputheight) => {
+        const updatedoutputheight = [...outputheight]
+        updatedoutputheight.splice(selectIndex + 1, 0, -1)
+        return updatedoutputheight
       })
       setRunCount((runCount) => {
         const updatedRunCount = [...runCount]
@@ -260,10 +288,28 @@ const page = ({ params }) => {
       parentoutputRefs.current[selectIndex].children[1].children[0].innerHTML = ''
       parentoutputRefs.current.splice(selectIndex, 1)
     }
+    outputText.map((e,i)=>{
+      if (parentoutputRefs.current[i]) {
+        parentoutputRefs.current[i].style.transition = "none"
+        parentoutputRefs.current[i].children[0].style.transition = "none"
+        parentoutputRefs.current[i].children[1].style.transition = "none"
+        parentoutputRefs.current[i].children[1].children[0].style.transition = "none"
+      }
+    })
     settextArea((textArea) => {
       let updatedTextArea = [...textArea]
       updatedTextArea.splice(selectIndex, 1)
       return updatedTextArea
+    })
+    setoutputText((outputText) => {
+      const updatedoutputText = [...outputText]
+      updatedoutputText.splice(selectIndex, 1)
+      return updatedoutputText
+    })
+    setoutputheight((outputheight) => {
+      const updatedoutputheight = [...outputheight]
+      updatedoutputheight.splice(selectIndex, 1)
+      return updatedoutputheight
     })
     setRunCount((runCount) => {
       const updatedRunCount = [...runCount]
@@ -284,6 +330,10 @@ const page = ({ params }) => {
       saveBox.current.classList.remove("bg-green-500")
     }
   }, [textArea])
+
+  useEffect(() => {
+    console.log('UPDATEDOUTPUTTEXT:', outputText, outputheight)
+  }, [outputText])
 
 
   return (
@@ -356,6 +406,12 @@ const page = ({ params }) => {
                 <div ref={(el) => (gridRefs.current[index] = el)} style={{ height: `${cellsheight[index] ? cellsheight[index].grid : 64}px` }} className={`grid grid-cols-[0.3vw_3.2vw] grid-rows-[32px_32px] absolute left-0 w-[3.5vw]`}>
                   <div className="rounded-md col-start-1 col-end-2 row-start-1 row-span-3 bg-slate-800"></div>
                   <div className="flex justify-center items-center col-start-2 col-end-3 row-start-1 row-end-2"><Image onClick={async () => {
+                    if (parentoutputRefs.current[index]) {
+                      parentoutputRefs.current[index].style.transition = "all 0.5 ease"
+                        parentoutputRefs.current[index].children[0].style.transition = "all 0.5 ease"
+                        parentoutputRefs.current[index].children[1].style.transition = "all 0.5 ease"
+                        parentoutputRefs.current[index].children[1].children[0].style.transition = "all 0.5 ease"
+                    }
                     if (inputRefs.current[index].value.trim() === "") {
                       setRunCount((runCount) => {
                         const updatedRunCount = [...runCount]
@@ -381,6 +437,11 @@ const page = ({ params }) => {
                       })
                     }
                     let rP = await runProgram(text)
+                    setoutputText((outputText) => {
+                      const updatedoutputText = [...outputText]
+                      updatedoutputText[index] = rP
+                      return updatedoutputText
+                    })
                     setrotateOutput(!rotateOutput)
                     if (parentRefs.current[index] && runCount[index] != 0) {
                       setrotateImage((rotateImage) => {
@@ -390,17 +451,22 @@ const page = ({ params }) => {
                       })
                     }
                     let nCounts = (rP.split('\n').length) - 2
+                    setoutputheight((outputheight) => {
+                      const updatedoutputheight = [...outputheight]
+                      updatedoutputheight[index] = nCounts
+                      return updatedoutputheight
+                    })
                     const endTime = Date.now()
                     const totalTime = ((endTime - startTime) / 1000).toFixed(1)
                     if (parentoutputRefs.current[index] || parentRefs.current[index]) {
                       if (rP.length != 0) {
                         const contentHeight = nCounts * 20
-                        parentoutputRefs.current[index].children[1].children[0].style.transition = "all 0.5s ease"
-                        parentoutputRefs.current[index].style.height = `${40 + contentHeight}px`
-                        parentoutputRefs.current[index].children[0].style.height = `${40 + contentHeight}px`
-                        parentoutputRefs.current[index].children[1].style.height = `${40 + contentHeight}px`
-                        parentoutputRefs.current[index].children[1].children[0].style.height = `${20 + contentHeight}px`
-                        parentoutputRefs.current[index].children[1].children[0].innerHTML = rP.toString().replace(/\n/g, "<br>")
+                        // parentoutputRefs.current[index].children[1].children[0].style.transition = "all 0.5s ease"
+                        // parentoutputRefs.current[index].style.height = `${40 + contentHeight}px`
+                        // parentoutputRefs.current[index].children[0].style.height = `${40 + contentHeight}px`
+                        // parentoutputRefs.current[index].children[1].style.height = `${40 + contentHeight}px`
+                        // parentoutputRefs.current[index].children[1].children[0].style.height = `${20 + contentHeight}px`
+                        // parentoutputRefs.current[index].children[1].children[0].innerHTML = rP.toString().replace(/\n/g, "<br>")
                         parentRefs.current[index].children[2].children[0].children[1].innerHTML = totalTime.toString() + 's'
                       }
                       else {
@@ -435,12 +501,12 @@ const page = ({ params }) => {
                   }} key={index} ref={(el) => (inputRefs.current[index] = el)} style={{ height: `${cellsheight[index] ? cellsheight[index].input : 20}px` }} spellCheck="false" className={`absolute z-[10] h-[${20}px] textarea text border-[0.2px] justify-start items-center focus:outline-none resize-none inline-block ml-5 bg-slate-800 w-[71vw] overflow-hidden`}></textarea>
                 </div>
               </div>
-              <div ref={(el) => (parentoutputRefs.current[index] = el)} className="flex justify-center items-center w-[78vw] h-0 ml-1 mb-2 overflow-hidden">
-                <div className='flex justify-start items-center w-[3.5vw] h-0'>
-                  <div className='w-[0.3vw] min-h-full bg-slate-800 rounded-md'></div>
+              <div ref={(el) => (parentoutputRefs.current[index] = el)} style={{ transition: `${runCount[index]?"all 0.5s ease":"none"}`, height: `${outputheight[index]>-1 ? 40 + (outputheight[index] * 20) : 0}px` }} className={`flex justify-center items-center w-[78vw] h-[${outputheight[index]+1 ? 40 + (outputheight[index] * 20) : 0}px] ml-1 mb-2 overflow-hidden`}>
+                <div style={{ transition: `${runCount[index]?"all 0.5s ease":"none"}`, height: `${outputheight[index]>-1 ? 40 + (outputheight[index] * 20) : 0}px`  }} className={`flex justify-start items-center w-[3.5vw] h-[${outputheight[index] ? 40 + (outputheight[index] * 20) : 0}px]`}>
+                  <div style={{ transition: `${runCount[index]?"all 0.5s ease":"none"}`}} className='w-[0.3vw] min-h-full bg-slate-800 rounded-md'></div>
                 </div>
-                <div className='flex justify-center items-center w-[74.5vw] h-0'>
-                  <div className='text flex justify-start items-start w-[72vw] p-0 h-0 overflow-auto'></div>
+                <div style={{ transition: `${runCount[index]?"all 0.5s ease":"none"}`, height: `${outputheight[index]>-1 ? 40 + (outputheight[index] * 20) : 0}px`  }} className={`flex justify-center items-center w-[74.5vw] h-[${outputheight[index] ? 40 + (outputheight[index] * 20) : 0}px]`}>
+                  <span style={{ transition: `${runCount[index]?"all 0.5s ease":"none"}`, height: `${outputheight[index]>-1 ? 20 + (outputheight[index] * 20) : 0}px` }} className={`outputBox text flex justify-start items-start w-[72vw] p-0 h-[${outputheight[index] ? 20 + (outputheight[index] * 20) : 0}px] overflow-x-auto overflow-y-auto`} dangerouslySetInnerHTML={{ __html: outputText[index] ? outputText[index].replace(/\n/g, '<br>') : '' }}></span>
                 </div>
               </div>
             </>

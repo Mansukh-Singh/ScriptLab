@@ -207,35 +207,36 @@ const page = () => {
     const resetButtonClick = async () => {
         setLoading(true)
         await wait(2000)
-        setresetAlert(true)
         setLoading(false)
+        setresetAlert(true)
     }
 
     useEffect(() => {
         if (resetAlert) {
             if (resetAlertRef.current) {
-                resetAlertRef.current.style.transition = "all 0.5s ease"
+                resetAlertRef.current.style.transition = "top 0.6s ease"
                 resetAlertRef.current.style.top = "0px"
             }
         }
         else {
             if (resetAlertRef.current) {
-                resetAlertRef.current.style.transition = "all 0.5s ease"
+                resetAlertRef.current.style.transition = "none"
                 resetAlertRef.current.style.top = "-64px"
             }
+            
         }
     }, [resetAlert])
 
 
     return (
         <>
-            {resetAlert && <div onClick={() => { setresetAlert(false) }} ref={resetAlertRef} style={{top:"-64px"}} className="flex justify-between items-center bg-yellow-600 w-[100vw] h-16 absolute z-[10]">
+            {resetAlert && <div onClick={() => { setresetAlert(false) }} ref={resetAlertRef} style={{ top: "-64px", position: "absolute", transition: "none" }} className="flex justify-between items-center bg-yellow-600 w-[100vw] h-16 absolute z-20">
                 <div className="flex justify-center items-center absolute z-[11] top-0 left-0 w-[100vw] h-16">Reset Link Already sent to your Email ID</div>
                 <div className="flex justify-center items-center w-[10vw] h-16">
                     <Image className="absolute top-0 right-0 border-2 border-red-500" src="/cross_icon.png" width={20} height={20} alt="cross_icon" />
                 </div>
             </div>}
-            {alert && <div ref={alert_div} style={{top:"-64px"}} className="absolute z-[10] flex shadow-lg rounded-lg gap-2 justify-between bg-yellow-700 text-white items-center w-[100vw] h-16 text-md font-mono font-semibold">
+            {alert && <div ref={alert_div} style={{ top: "-64px" }} className="absolute z-[10] flex shadow-lg rounded-lg gap-2 justify-between bg-yellow-700 text-white items-center w-[100vw] h-16 text-md font-mono font-semibold">
                 <span className="text inline-block ml-7">{apiresult}</span>
                 <button type="button" className="text mr-7" onClick={handleAlert}>X</button>
             </div>}
