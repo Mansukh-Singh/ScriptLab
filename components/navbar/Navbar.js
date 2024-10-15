@@ -102,7 +102,7 @@ const Navbar = () => {
                         <span className="flex justify-center items-center w-[20vw] h-[10vh]"><span onClick={logOut} className='text-md font-bold text-slate-300 cursor-pointer hover:text-slate-500'>Logout</span></span>
                     </div>
                 </div>}
-                <div className='div_condition z-[9] absolute top-0 flex justify-between items-center h-14 w-screen'>
+                <div className='div_condition z-[10] relative top-0 flex justify-between items-center h-14 w-screen'>
                     <div className='flex justify-start items-center gap-2'>
                         <span className='text_style relative inline-block ml-5 p-1 text-yellow-300 font-extrabold rounded-lg text-2xl font-mono'>&lt;/&gt;</span>
                         <div className="flex justify-center items-center gap-[4px]">
