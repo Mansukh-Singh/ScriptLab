@@ -137,6 +137,10 @@
     font-size: 14px;
 }
 
+.settingCells {
+    background: linear-gradient(to bottom, rgba(255, 196, 0, 0.76), rgba(0, 0, 0, 0.717));
+}
+
 .gridChild {
     justify-self: center;
     align-self: flex-end;

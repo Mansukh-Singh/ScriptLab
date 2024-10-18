@@ -1,12 +1,37 @@
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:ital,wght@0,100..900;1,100..900&display=swap');
+
+
 .text {
     text-shadow: 0px 4px 5px black;
     letter-spacing: 0.5px;
+}
+
+.text_style {
+    font-family: "Exo 2", sans-serif;
+    font-optical-sizing: auto;
+    font-style: normal;
 }
 
 .description {
     text-shadow: 0px 2px 3px black;
 }
 
+.para {
+    text-align: left;
+    text-shadow: 0px 2px 5px black;
+    font-size: small;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    row-gap: 1vh;
+}
+
+.paraSpan2 {
+    text-decoration: underline;
+    text-decoration-color: rgb(253 224 71 / 1);
+    text-decoration-thickness: 3px;
+}
 /* .banner {
     --tw-bg-opacity: 1;
     animation: colour 1s ease-in-out infinite alternate;

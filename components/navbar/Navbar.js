@@ -104,7 +104,7 @@ const Navbar = () => {
                 </div>}
                 <div className='div_condition z-[10] relative top-0 flex justify-between items-center h-14 w-screen'>
                     <div className='flex justify-start items-center gap-2'>
-                        <span className='text_style relative inline-block ml-5 p-1 text-yellow-300 font-extrabold rounded-lg text-2xl font-mono'>&lt;/&gt;</span>
+                        <Link href='/'><span className='text_style relative inline-block ml-5 p-1 text-yellow-300 rounded-lg text-2xl font-bold'>&lt;/&gt;</span></Link>
                         <div className="flex justify-center items-center gap-[4px]">
                             <span className='text_style script text-xl font-bold'>Script</span>
                             <span className='text_style lab text-2xl text-yellow-300 font-bold'>LAB</span>
@@ -120,13 +120,13 @@ const Navbar = () => {
         return (
             <div className='div_condition relative top-0 flex justify-between items-center h-16 w-screen'>
                 <div className='flex justify-start items-center gap-2'>
-                    <Link href='/'><span className='font text relative inline-block ml-5 p-1 text-yellow-300 font-extrabold rounded-lg text-2xl font-mono'>&lt;/&gt;</span></Link>
+                    <Link href='/'><span className='font text relative inline-block ml-5 p-1 text-yellow-300 font-bold rounded-lg text-2xl font-mono'>&lt;/&gt;</span></Link>
                     <div className="flex justify-center items-center gap-[4px]">
                         <span className='script text-xl text font-bold'>Script</span>
                         <span className='lab text text-2xl text-yellow-300 font-bold'>LAB</span>
                     </div>
                 </div>
-                <Link href='/login'><span className='login text relative inline-block p-2 px-3 mx-8 rounded-md text-lg font-bold hover:text-yellow-300'>Login</span></Link>
+                <Link href='/login'><span className='login text_style text relative inline-block p-2 px-3 mx-8 rounded-md text-lg font-bold hover:text-yellow-300'>Login</span></Link>
             </div>
         )
     }
