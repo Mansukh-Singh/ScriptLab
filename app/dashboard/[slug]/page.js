@@ -6,7 +6,7 @@ import userCreate from './userCreate'
 import { useRouter } from 'next/navigation'
 import './dashboard.css'
 
-const page = ({ params }) => {
+const Page = ({ params }) => {
 
     const router = useRouter()
 
@@ -180,4 +180,4 @@ const page = ({ params }) => {
     )
 }
 
-export default page
+export default Page

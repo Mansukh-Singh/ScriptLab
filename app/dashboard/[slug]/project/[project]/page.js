@@ -7,7 +7,7 @@ import './project.css'
 import { sendError } from 'next/dist/server/api-utils'
 import connectToUserProjectDatabase from '@/app/api/server/lib/userProjectMongodb'
 
-const page = ({ params }) => {
+const Page = ({ params }) => {
 
   const [rotateOutput, setrotateOutput] = useState(false)
   const [rotateImage, setrotateImage] = useState([])
@@ -533,4 +533,4 @@ const page = ({ params }) => {
   )
 }
 
-export default page
+export default Page
