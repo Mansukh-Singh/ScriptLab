@@ -10,8 +10,8 @@
 
 # testing
 /coverage
-/public
-/redux
+/public/
+/redux/
 
 # next.js
 /.next/
