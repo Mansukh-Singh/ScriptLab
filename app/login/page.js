@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation"
 import sendEmail from "./emailSender"
 import './login.css'
 
-const page = () => {
+const Page = () => {
 
     const router = useRouter()
 
@@ -287,4 +287,4 @@ const page = () => {
     )
 }
 
-export default page
+export default Page
