@@ -248,10 +248,10 @@ const Page = () => {
             <div className='relative z-[0] overflow-hidden shadow-lg flex flex-col justify-items items-center loginboard w-[30vw] h-[60vh] m-auto mt-20 rounded-3xl border-[2px] border-yellow-300 shadow-black'>
                 {hiddendiv && <div className="absolute flex flex-col z-[7] justify-center items-center gap-3 rounded-3xl top-0 left-0 w-[30vw] h-[60vh]">
                     <span className="fog_pass flex justify-center items-center text-3xl font-semibold shadow-md shadow-black bg-yellow-500 text-white px-3 py-1 rounded-lg">Forgot Password</span>
-                    <span className="r_password flex justify-center items-center font-mono font-semibold text-sm">We'll email you a password reset link.</span>
+                    <span className="r_password flex justify-center items-center font-mono font-semibold text-sm">{"We'll email you a password reset link"}</span>
                     <input type="text" value={resetEmail} onChange={(e) => { setresetEmail(e.target.value) }} className='email bg-none w-[25vw] p-1 font-mono text-sm pb-2 font-bold shadow-md shadow-black' placeholder="Enter your Email ID" />
                     <button ref={hiddensubmitButton} onClick={resetButtonClick} onMouseUp={hiddenbuttonUp} onMouseDown={hiddenbuttonDown} className="relative flex justify-center items-center w-[25vw] h-[4vh] border border-black bg-none font-mon font-semibold py-4 rounded-md shadow-md shadow-black">Start password reset</button>
-                    <button onClick={hiddenDiv} className="flex justify-center items-center back font-mono font-semibold">&lt;- back</button>
+                    <button onClick={hiddenDiv} className="flex justify-center items-center back font-mono font-semibold">{"<- back"}</button>
                 </div>}
                 <div ref={sI_lI} className='flex mt-11 mb-11 relative z-[3] justify-between rounded-md shadow-md shadow-black w-56'>
                     <div ref={hidden} className='absolute z-[2] w-28 h-11 top-0 bg-yellow-500 rounded-md'></div>
