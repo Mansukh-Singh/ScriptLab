@@ -496,7 +496,7 @@ const Page = ({ params }) => {
                 </div>
                 <div ref={(el) => (outerRefs.current[index] = el)} style={{ height: `${cellsheight[index] ? cellsheight[index].outer : 64}px` }} className={`flex justify-center items-center absolute z-[9] top-0 right-0 w-[74.5vw]  bg-slate-800`}>
                   <div style={{ height: `${cellsheight[index] ? cellsheight[index].upperparent : 64}px` }} className="absolute z-[7] flex justify-start items-end w-[74.5vw] h-16">
-                    <div className="flex justify-center items-center w-4 h-4 ml-3 mb-[3px] text-[11px]">{runCount[index] ? (rotateImage[index] ? <span className="rotateImage" ><Image src="/rotate-right-solid.svg" width={13} height={13} /></span> : <Image src="/check-solid.svg" width={13} height={13} />) : ''}</div>
+                    <div className="flex justify-center items-center w-4 h-4 ml-3 mb-[3px] text-[11px]">{runCount[index] ? (rotateImage[index] ? <span className="rotateImage" ><Image src="/rotate-right-solid.svg" width={13} height={13} alt="rotae_right_solid" /></span> : <Image src="/check-solid.svg" width={13} height={13} alt="check_solid" />) : ''}</div>
                     <div className="flex justify-center items-center text-green-300 font-light w-6 h-4 ml-3 mb-[3px] text-[11px]">{upperparent[index] ? upperparent[index] : ''}</div>
                   </div>
                   <textarea value={[...textArea][index]} onChange={(e) => {
