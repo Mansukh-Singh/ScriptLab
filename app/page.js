@@ -53,7 +53,7 @@ export default function Home() {
       <div className='relative z-[5] banner flex justify-center text-center items-center rounded-2xl pt-7 pb-9 mt-5 w-[70vw] h-[35vh] m-auto'>
         <div className="flex flex-col items-center w-[70vw] justify-between gap-6">
           <div className="flex items-center gap-4">
-            <div ref={imgBanner} className="w-20 h-20 transform scale-50 opacity-0"><img className="js-img shadow-lg shadow-black rounded-lg" src="/js_logo.png" alt="" /></div>
+            <div ref={imgBanner} className="w-20 h-20 transform scale-50 opacity-0"><Image className="js-img shadow-lg shadow-black rounded-lg" width={400} height={400} src="/js_logo.png" alt="js_logo" /></div>
             <div ref={textBanner} className="flex w-80 flex-col text-4xl transform scale-50 opacity-0">
               <div className="flex gap-1">
                 <span className='w-36 h-11 text inline-block font-bold'>Jupyter</span>
