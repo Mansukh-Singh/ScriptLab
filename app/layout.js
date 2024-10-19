@@ -1,6 +1,5 @@
 import { Inter } from "next/font/google";
 import Navbar from "../components/navbar/Navbar";
-import StoreProvider from "@/components/provider/Provider";
 import SessionWrapper from "@/components/sessionwrapper/sessionwrapper";
 import "./globals.css";
 
@@ -20,11 +19,9 @@ export default function RootLayout({ children }) {
         </head>
         <body className={`${inter.className} relative h-full overflow-y-auto`}>
           <SessionWrapper>
-          <StoreProvider>
           <Navbar />
           <div className="fixed top-0 left-0 z-[-2] min-h-screen w-full bg-gray-900"></div>
           {children}
-          </StoreProvider>
           </SessionWrapper>
         </body>
       </html>
