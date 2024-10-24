@@ -10,11 +10,14 @@ import connectToUserProjectDatabase from '@/app/api/server/lib/userProjectMongod
 const Page = ({ params }) => {
 
   const [rotateOutput, setrotateOutput] = useState(false)
+  const [outputResult, setoutputResult] = useState(false)
   const [rotateImage, setrotateImage] = useState([])
+  const [outputHeights, setoutputHeights] = useState([])
   const [runCount, setRunCount] = useState([])
   const [outputText, setoutputText] = useState([])
   const [upperparent, setupperparent] = useState([])
   const [savecolor, setsavecolor] = useState(true)
+  const [emptyTextArea, setemptyTextArea] = useState(false)
   const saveBox = useRef()
   const projectRef = useRef();
   const actionIcons = useState(false)
@@ -92,6 +95,10 @@ const Page = ({ params }) => {
       const updatedoutputText = new Array(textArea.length).fill('');
       return updatedoutputText
     })
+    setoutputHeights((outputHeights) => {
+      const updatedoutputheights = new Array(textArea.length).fill('0px');
+      return updatedoutputheights
+    })
     setoutputheight((outputheight) => {
       const updatedoutputheight = new Array(textArea.length).fill(-1);
       return updatedoutputheight
@@ -122,11 +129,6 @@ const Page = ({ params }) => {
   const projectDivClick = () => {
     setdrop(!drop)
   }
-
-  useEffect(() => {
-    console.log('Upperparent:', upperparent)
-  }, [upperparent])
-
 
   const saveCells = async () => {
     let response = await fetch("/api/userProjectcells", {
@@ -213,6 +215,11 @@ const Page = ({ params }) => {
         updatedoutputText.push('')
         return updatedoutputText
       })
+      setoutputHeights((outputHeights) => {
+        const updatedoutputHeights = [...outputHeights]
+        updatedoutputHeights.push("0px")
+        return updatedoutputHeights
+      })
       setoutputheight((outputheight) => {
         const updatedoutputheight = [...outputheight]
         updatedoutputheight.push(-1)
@@ -263,6 +270,11 @@ const Page = ({ params }) => {
         const updatedoutputText = [...outputText]
         updatedoutputText.splice(selectIndex + 1, 0, '')
         return updatedoutputText
+      })
+      setoutputHeights((outputHeights) => {
+        const updatedoutputHeights = [...outputHeights]
+        updatedoutputHeights.splice(selectIndex + 1, 0, '0px')
+        return updatedoutputHeights
       })
       setoutputheight((outputheight) => {
         const updatedoutputheight = [...outputheight]
@@ -327,6 +339,11 @@ const Page = ({ params }) => {
       updatedoutputText.splice(selectIndex, 1)
       return updatedoutputText
     })
+    setoutputHeights((outputHeights) => {
+      const updatedoutputHeights = [...outputHeights]
+      updatedoutputHeights.splice(selectIndex, 1)
+      return updatedoutputHeights
+    })
     setoutputheight((outputheight) => {
       const updatedoutputheight = [...outputheight]
       updatedoutputheight.splice(selectIndex, 1)
@@ -352,6 +369,79 @@ const Page = ({ params }) => {
     }
   }, [textArea])
 
+  const runAllCells = async () => {
+    textArea.map(async (element, index) => {
+      setoutputResult(true)
+      if (parentoutputRefs.current[index]) {
+        parentoutputRefs.current[index].style.transition = "all 0.5s ease"
+        parentoutputRefs.current[index].children[0].style.transition = "all 0.5s ease"
+        parentoutputRefs.current[index].children[1].style.transition = "all 0.5s ease"
+        parentoutputRefs.current[index].children[1].children[0].style.transition = "all 0.5s ease"
+      }
+      if (inputRefs.current[index].value.trim() === "") {
+        setRunCount((runCount) => {
+          const updatedRunCount = [...runCount]
+          updatedRunCount[index] = 0
+          return updatedRunCount
+        })
+      }
+      else {
+        setRunCount((runCount) => {
+          const updatedRunCount = [...runCount]
+          updatedRunCount[index] += 1
+          return updatedRunCount
+        })
+      }
+      let text = textArea[index]
+      const startTime = Date.now()
+      setrotateOutput(!rotateOutput)
+      if (parentRefs.current[index] && runCount[index] != 0) {
+        setrotateImage((rotateImage) => {
+          const updatedRotatedImage = [...rotateImage]
+          updatedRotatedImage[index] = true
+          return updatedRotatedImage
+        })
+      }
+      let rP = await runProgram(text)
+      setoutputText((outputText) => {
+        const updatedoutputText = [...outputText]
+        updatedoutputText[index] = rP
+        return updatedoutputText
+      })
+      setrotateOutput(!rotateOutput)
+      if (parentRefs.current[index] && runCount[index] != 0) {
+        setrotateImage((rotateImage) => {
+          const updatedRotatedImage = [...rotateImage]
+          updatedRotatedImage[index] = false
+          return updatedRotatedImage
+        })
+      }
+      let nCounts = (rP.split('\n').length) - 2
+      setoutputheight((outputheight) => {
+        const updatedoutputheight = [...outputheight]
+        updatedoutputheight[index] = nCounts
+        return updatedoutputheight
+      })
+      const endTime = Date.now()
+      const totalTime = ((endTime - startTime) / 1000).toFixed(1)
+      if (inputRefs.current[index].value.trim() != "") {
+        setupperparent((upperparent) => {
+          const updatedupperparent = [...upperparent]
+          updatedupperparent[index] = totalTime.toString() + 's'
+          return updatedupperparent
+        })
+      }
+      setoutputResult(false)
+      setTimeout(() => {
+        setoutputHeights((outputHeights) => {
+          const updatedoutputheights = [...outputHeights]
+          updatedoutputheights[index] = `${parentoutputRefs.current[index].children[1].clientHeight}px`
+          return updatedoutputheights
+        })
+      }, 1);
+    })
+  }
+
   return (
     <>
       <div className="main flex justify-center absolute w-screen">
@@ -368,7 +458,7 @@ const Page = ({ params }) => {
             })}
           </div>
         </div>
-        <div className="child_main1 flex-col justify-end items-center w-[80vw] overflow-x-hidden overflow-y-auto">
+        <div className="child_main1 relative flex-col justify-end items-center w-[80vw] overflow-x-hidden overflow-y-auto">
           <div className="flex relative justify-start items-center gap-2 w-[80vw] h-11">
             <div onClick={handleAddCell} className="flex transition-all justify-center gap-2 items-center ml-4 h-6 w-20 hover:bg-slate-800 rounded-md cursor-pointer">
               <span className="plus_sign text-lg pb-1 font-semibold">+</span>
@@ -378,7 +468,7 @@ const Page = ({ params }) => {
               <span className="plus_sign text-lg pb-1 font-semibold">+</span>
               <span className="text font-semibold">Markdown</span>
             </div>
-            <div onMouseOver={runOver} onMouseLeave={runLeave} className="flex transition-all relative justify-start gap-2 items-center h-6 w-24 hover:bg-slate-800 rounded-md cursor-pointer">
+            <div onClick={runAllCells} onMouseOver={runOver} onMouseLeave={runLeave} className="flex transition-all relative justify-start gap-2 items-center h-6 w-24 hover:bg-slate-800 rounded-md cursor-pointer">
               <div className="flex justify-center items-center h-6 w-8 absolute">
                 <Image className="absolute left-1" src="/play_pic.png" width={16} height={16} alt="play_icon" />
                 <span ref={runButton} className="flex justify-start items-center pl-0 absolute z-[2] left-2"><Image src="/play_pic.png" width={16} height={16} alt="play_icon" /></span>
@@ -392,6 +482,17 @@ const Page = ({ params }) => {
                 <span ref={runButton} className="flex justify-start items-center pl-0 bg-gray-900 absolute z-[2] left-2"><Image src="/save.png" width={16} height={16} alt="play_icon" /></span>
               </div>
               <span className="inline-block absolute top-[1px] left-8 text font-semibold">Save</span>
+            </div>
+          </div>
+          <div style={{ transition: "all 0.2s ease", opacity: `${!textArea.length ? '1' : '0'}` }} className='flex border-[1px] border-gray-600 border-dashed rounded-lg ml-5 justify-center items-center absolute top-16 w-[75vw] h-[70vh] overflow-hidden'>
+            <div style={{ transition: "all 0.2s ease", opacity: `${!textArea.length ? '1' : '0'}` }} className="text_shadow text_style flex justify-center items-center text-[15px] font-semibold overflow-hidden">Add a cell to continue</div>
+            <div onClick={handleAddCell} className="flex transition-all justify-center gap-2 items-center ml-4 h-6 w-20 hover:bg-slate-800 rounded-md cursor-pointer">
+              <span className="plus_sign text-lg pb-1 text-yellow-300 font-semibold">+</span>
+              <span className="text font-semibold text-yellow-300">Code</span>
+            </div>
+            <div className="flex transition-all justify-center gap-2 items-center h-6 w-28 hover:bg-slate-800 rounded-md cursor-pointer">
+              <span className="plus_sign text-yellow-300 text-lg pb-1 font-semibold">+</span>
+              <span className="text font-semibold text-yellow-300">Markdown</span>
             </div>
           </div>
           {textArea.map((e, index) => {
@@ -414,7 +515,7 @@ const Page = ({ params }) => {
                   }
                 })
               }} ref={(el) => (parentRefs.current[index] = el)} key={index} style={{ height: `${cellsheight[index] ? cellsheight[index].parent : 64}px` }} className={`cells flex justify-center items-center relative z-[2] w-[78vw] m-auto mb-1 mt-7 ml-1 bg-slate-900`}>
-                <div style={{ display: "none" }} className="settingCells flex justify-center gap-3 items-center rounded-md absolute z-[11] top-[-3vh] right-10 w-[10vw] h-[5vh] shadow-sm shadow-black">
+                <div style={{ display: "none", transition: "all 0.4s ease" }} className="settingCells flex justify-center gap-3 items-center rounded-md absolute z-[11] top-[-3vh] right-10 w-[10vw] h-[5vh] shadow-sm shadow-black">
                   <Image className="p-[2.5px] rounded-md hover:bg-gray-800 cursor-pointer" src="/play_pic.png" width={22} height={22} alt="play_icon" />
                   <Image className="p-[2.5px] rounded-md hover:bg-gray-800 cursor-pointer" src="/play_pic.png" width={22} height={22} alt="play_icon" />
                   <Image onClick={deleteIndex} className="p-[3px] rounded-md hover:bg-gray-800 cursor-pointer" src="/trash_can.png" width={22} height={22} alt="play_icon" />
@@ -422,6 +523,7 @@ const Page = ({ params }) => {
                 <div ref={(el) => (gridRefs.current[index] = el)} style={{ height: `${cellsheight[index] ? cellsheight[index].grid : 64}px` }} className={`grid grid-cols-[0.3vw_3.2vw] grid-rows-[32px_32px] absolute left-0 w-[3.5vw]`}>
                   <div className="rounded-md col-start-1 col-end-2 row-start-1 row-span-3 bg-slate-800"></div>
                   <div className="flex justify-center items-center col-start-2 col-end-3 row-start-1 transition-all row-end-2"><Image onClick={async () => {
+                    setoutputResult(true)
                     if (parentoutputRefs.current[index]) {
                       parentoutputRefs.current[index].style.transition = "all 0.5s ease"
                       parentoutputRefs.current[index].children[0].style.transition = "all 0.5s ease"
@@ -481,16 +583,21 @@ const Page = ({ params }) => {
                         return updatedupperparent
                       })
                     }
-                    if (parentoutputRefs.current[index] || parentRefs.current[index]) {
-                      if (rP.length != 0) {
-                        const contentHeight = nCounts * 20
-                      }
-                      else {
-                        parentoutputRefs.current[index].children[1].children[0].style.transition = "all 0.5s ease"
-                        parentoutputRefs.current[index].style.height = '0px'
-                        parentRefs.current[index].children[2].children[0].children[1].innerHTML = ''
-                      }
+                    else {
+                      setupperparent((upperparent) => {
+                        const updatedupperparent = [...upperparent]
+                        updatedupperparent[index] = ''
+                        return updatedupperparent
+                      })
                     }
+                    setoutputResult(false)
+                    setTimeout(() => {
+                      setoutputHeights((outputHeights) => {
+                        const updatedoutputheights = [...outputHeights]
+                        updatedoutputheights[index] = `${parentoutputRefs.current[index].children[1].clientHeight}px`
+                        return updatedoutputheights
+                      })
+                    }, 1);
                   }} className="p-[2.5px] rounded-md hover:bg-gray-700 cursor-pointer" src="/play_pic.png" width={22} height={22} alt="play_icon" /></div>
                   <div ref={(el) => (countRefs.current[index] = el)} className="gridChild text-sm col-start-2 col-end-3 row-start-2 row-end-4 font-light mb-1">{(runCount[index] == 0) ? `[ ]` : `[${runCount[index]}]`}</div>
                 </div>
@@ -507,22 +614,22 @@ const Page = ({ params }) => {
                     })
                   }} onInput={(e) => {
                     if (inputRefs.current[index] || outerRefs.current[index]) {
-                      inputRefs.current[index].style.height = "20px";
-                      inputRefs.current[index].style.height = `${inputRefs.current[index].scrollHeight - 1}px`;
-                      outerRefs.current[index].style.height = `${inputRefs.current[index].scrollHeight + 43}px`;
-                      outerRefs.current[index].children[0].style.height = `${inputRefs.current[index].scrollHeight + 43}px`;
-                      parentRefs.current[index].style.height = `${inputRefs.current[index].scrollHeight + 43}px`;
-                      gridRefs.current[index].style.height = `${inputRefs.current[index].scrollHeight + 43}px`;
+                      inputRefs.current[index].style.height = "20px"
+                      inputRefs.current[index].style.height = `${inputRefs.current[index].scrollHeight - 1}px`
+                      outerRefs.current[index].style.height = `${inputRefs.current[index].scrollHeight + 43}px`
+                      outerRefs.current[index].children[0].style.height = `${inputRefs.current[index].scrollHeight + 43}px`
+                      parentRefs.current[index].style.height = `${inputRefs.current[index].scrollHeight + 43}px`
+                      gridRefs.current[index].style.height = `${inputRefs.current[index].scrollHeight + 43}px`
                     }
                   }} key={index} ref={(el) => (inputRefs.current[index] = el)} style={{ height: `${cellsheight[index] ? cellsheight[index].input : 20}px` }} spellCheck="false" className={`absolute z-[10] h-[${20}px] textarea text border-[0.2px] justify-start items-center focus:outline-none resize-none inline-block ml-5 bg-slate-800 w-[71vw] overflow-hidden`}></textarea>
                 </div>
               </div>
-              <div ref={(el) => (parentoutputRefs.current[index] = el)} style={{ transition: `${runCount[index] ? "all 0.5s ease" : "none"}`, height: `${outputheight[index] > -1 ? 40 + (outputheight[index] * 20) : 0}px` }} className={`flex justify-center items-center w-[78vw] h-[${outputheight[index] + 1 ? 40 + (outputheight[index] * 20) : 0}px] ml-1 mb-2 overflow-hidden`}>
-                <div style={{ transition: `${runCount[index] ? "all 0.5s ease" : "none"}`, height: `${outputheight[index] > -1 ? 40 + (outputheight[index] * 20) : 0}px` }} className={`flex justify-start items-center w-[3.5vw] h-[${outputheight[index] ? 40 + (outputheight[index] * 20) : 0}px]`}>
-                  <div style={{ transition: `${runCount[index] ? "all 0.5s ease" : "none"}` }} className='w-[0.3vw] min-h-full bg-slate-800 rounded-md'></div>
+              <div ref={(el) => (parentoutputRefs.current[index] = el)} style={{ transition: `${runCount[index] ? "all 0.5s ease" : "none"}`, height: `${(outputHeights[index] == "24px" || outputHeights[index] == "0px") ? "0px" : outputHeights[index]}` }} className={`flex justify-center items-center w-[78vw] ml-1 mb-2 overflow-hidden`}>
+                <div style={{ transition: `${runCount[index] ? "all 0.5s ease" : "none"}`, height: `${(outputHeights[index] == "24px" || outputHeights[index] == "0px") ? "0px" : outputheight[index]}` }} className={`flex justify-start min-h-full items-center w-[3.5vw]`}>
+                  <div style={{ transition: `${runCount[index] ? "all 0.5s ease" : "none"}`, }} className='w-[0.3vw] min-h-full bg-slate-800 rounded-md'></div>
                 </div>
-                <div style={{ transition: `${runCount[index] ? "all 0.5s ease" : "none"}`, height: `${outputheight[index] > -1 ? 40 + (outputheight[index] * 20) : 0}px` }} className={`flex justify-center items-center w-[74.5vw] h-[${outputheight[index] ? 40 + (outputheight[index] * 20) : 0}px]`}>
-                  <span style={{ transition: `${runCount[index] ? "all 0.5s ease" : "none"}`, height: `${outputheight[index] > -1 ? 20 + (outputheight[index] * 20) : 0}px` }} className={`outputBox text flex justify-start items-start w-[72vw] p-0 h-[${outputheight[index] ? 20 + (outputheight[index] * 20) : 0}px] overflow-x-auto overflow-y-auto`} dangerouslySetInnerHTML={{ __html: outputText[index] ? outputText[index].replace(/\n/g, '<br>') : '' }}></span>
+                <div style={{ transition: `${runCount[index] ? "all 0.5s ease" : "none"}`, }} className={`flex justify-center items-center w-[74.5vw] p-3`}>
+                  <span style={{ transition: `${runCount[index] ? "all 0.5s ease" : "none"}`, }} className={`outputBox outputText text w-[72vw] overflow-x-auto overflow-y-auto`} dangerouslySetInnerHTML={{ __html: outputText[index] ? outputText[index].replace(/\n/g, '<br>') : '' }}></span>
                 </div>
               </div>
             </>

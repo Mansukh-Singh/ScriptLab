@@ -15,7 +15,7 @@ const Login = () => {
     }
     return (
         <>
-            <div className='w-96 h-96 bg-red-700 text-white'>
+            <div className='relative z-[45] w-96 h-96 bg-red-700 text-white'>
                 Not signed in <br />
                 <button onClick={() => signIn("github")}>Sign in</button>
             </div>
